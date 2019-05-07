@@ -7,10 +7,7 @@
 */
 
 -- Create WCA user
-CREATE USER wca IDENTIFIED BY 'change.me';
+CREATE USER IF NOT EXISTS wca IDENTIFIED BY 'change.me';
 
 -- Enable reading / writing of files on the server host
 GRANT FILE ON *.* TO wca;
-
--- Grant access to the latest WCA database
-GRANT ALL ON wca.* TO wca;
