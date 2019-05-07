@@ -8,6 +8,3 @@
 
 -- Create the latest WCA database
 CREATE DATABASE wca;
-
--- Create the historical WCA database
-CREATE DATABASE wca_20190130;

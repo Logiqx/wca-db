@@ -14,6 +14,3 @@ GRANT FILE ON *.* TO wca;
 
 -- Grant access to the latest WCA database
 GRANT ALL ON wca.* TO wca;
-
--- Grant access to the historical WCA database
-GRANT ALL ON wca_20190130.* TO wca;
