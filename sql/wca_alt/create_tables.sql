@@ -165,13 +165,16 @@ SELECT `Countries`.`id`, `Countries`.`continentId`, `Persons`.`id`, `Persons`.`s
 	`Persons`.`name`, `Countries`.`name`, `Countries`.`continentName`, `Persons`.`gender`
 FROM `wca`.`Persons`
 JOIN `wca_alt`.`Countries` ON `Persons`.`countryId` = `Countries`.`legacyId`
-ORDER BY `Persons`.`id`, `Persons`.`subid`;
+ORDER BY `Persons`.`id`, `Persons`.`subid` DESC;
 
 CREATE UNIQUE INDEX `Persons_wcaId_subid` ON `wca_alt`.`Persons` (`wcaId`, `subid`);
-CREATE INDEX `Persons_name` ON `wca_alt`.`Persons` (`name`);
 
 CREATE INDEX `Persons_countryId` ON `wca_alt`.`Persons` (`countryId`);
 CREATE INDEX `Persons_continentId` ON `wca_alt`.`Persons` (`continentId`);
+
+CREATE INDEX `Persons_name` ON `wca_alt`.`Persons` (`name`);
+CREATE INDEX `Persons_countryName` ON `wcastats`.`Persons` (`countryName`);
+CREATE INDEX `Persons_continentName` ON `wcastats`.`Persons` (`continentName`);
 
 
 /* --------------------
@@ -209,18 +212,6 @@ CREATE INDEX `RanksSingle_continentId_eventId` ON `wca_alt`.`RanksSingle` (`cont
 
 CREATE INDEX `RanksSingle_eventId` ON `wca_alt`.`RanksSingle` (`eventId`);
 
-DROP VIEW IF EXISTS wca_alt.RanksSingleView;
-
-CREATE VIEW wca_alt.RanksSingleView AS
-SELECT r.id, r.`personId`, r.`countryId`, r.`continentId`, r.`eventId`,
-	p.wcaId, p.name AS personName, c.name AS countryName, c.continentName AS continentName, e.name AS eventName,
-	`best`, `worldRank`, `continentRank`, `countryRank`
-FROM `wca_alt`.`RanksSingle` AS r
-JOIN `wca_alt`.`Persons` AS p ON p.`id` = r.`personId`
-JOIN `wca_alt`.`Countries` AS c ON c.`id` = r.`countryId`
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`;
-
-
 /* --------------------
     RanksAverage
    -------------------- */
@@ -255,17 +246,6 @@ CREATE INDEX `RanksAverage_countryId_eventId` ON `wca_alt`.`RanksAverage` (`coun
 CREATE INDEX `RanksAverage_continentId_eventId` ON `wca_alt`.`RanksAverage` (`continentId`, `eventId`);
 
 CREATE INDEX `RanksAverage_eventId` ON `wca_alt`.`RanksAverage` (`eventId`);
-
-DROP VIEW IF EXISTS wca_alt.RanksAverageView;
-
-CREATE VIEW wca_alt.RanksAverageView AS
-SELECT r.id, r.`personId`, r.`countryId`, r.`continentId`, r.`eventId`,
-	p.wcaId, p.name AS personName, c.name AS countryName, c.continentName AS continentName, e.name AS eventName,
-	`best`, `worldRank`, `continentRank`, `countryRank`
-FROM `wca_alt`.`RanksAverage` AS r
-JOIN `wca_alt`.`Persons` AS p ON p.`id` = r.`personId`
-JOIN `wca_alt`.`Countries` AS c ON c.`id` = r.`countryId`
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`;
 
 
 /* --------------------
@@ -320,6 +300,9 @@ CREATE UNIQUE INDEX `Competitions_legacyId` ON `wca_alt`.`Competitions` (`legacy
 
 CREATE INDEX `Competitions_countryId` ON `wca_alt`.`Competitions` (`countryId`);
 CREATE INDEX `Competitions_continentId` ON `wca_alt`.`Competitions` (`continentId`);
+
+CREATE INDEX `Competitions_countryName` ON `wcastats`.`Competitions` (`countryName`);
+CREATE INDEX `Competitions_continentName` ON `wcastats`.`Competitions` (`continentName`);
 
 CREATE INDEX `Competitions_year_month_day` ON `wca_alt`.`Competitions` (`year`, `month`, `day`);
 
@@ -389,28 +372,6 @@ CREATE INDEX `Results_competitionContinentId_eventId` ON `wca_alt`.`Results` (`c
 
 CREATE INDEX `Results_eventId` ON `wca_alt`.`Results` (`eventId`);
 CREATE INDEX `Results_roundTypeId` ON `wca_alt`.`Results` (`roundTypeId`);
-
-DROP VIEW IF EXISTS wca_alt.ResultsView;
-
-CREATE VIEW wca_alt.ResultsView
-AS
-SELECT r.id, r.`personId`, r.`personCountryId`, r.`personContinentId`,
-	r.`competitionId`, r.`competitionCountryId`, r.`competitionContinentId`,
-	r.`eventId`, r.`roundTypeId`, r.`roundTypeCode`, r.`roundTypeFinal`,
-	p.wcaId, p.name AS personName, pc.name AS personCountryName, pc.continentName AS personContinentName, p.gender AS personGender,
-	c.name AS competitionName, cc.name AS competitionCountryName, cc.continentName AS competitionContinentName,
-    e.name AS eventName, rt.name AS roundTypeName, f.name AS formatTypeName,
-    r.`formatId`, r.`formatCode`, r.`pos`, r.`best`, r.`average`,
-	r.`value1`, r.`value2`, r.`value3`, r.`value4`, r.`value5`,
-    r.`regionalSingleRecord`, r.`regionalAverageRecord`
-FROM `wca_alt`.`Results` AS r
-JOIN `wca_alt`.`Persons` AS p ON p.`id` = r.`personId`
-JOIN `wca_alt`.`Countries` AS pc ON pc.`id` = r.`personCountryId`
-JOIN `wca_alt`.`Competitions` AS c ON c.`id` = r.`competitionId`
-JOIN `wca_alt`.`Countries` AS cc ON cc.`id` = r.`competitionCountryId`
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`
-JOIN `wca_alt`.`RoundTypes` AS rt ON rt.`id` = r.`roundTypeId`
-JOIN `wca_alt`.`Formats` AS f ON f.`id` = r.`formatId`;
 
 
 /* --------------------
