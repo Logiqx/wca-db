@@ -1,9 +1,9 @@
-SELECT * FROM wca.championships
+SELECT * FROM championships
 where length(championship_type) > 2
 order by competition_id;
 
 SELECT championship_type, COUNT(*)
-FROM wca.championships
+FROM championships
 group by championship_type
 order by length(championship_type) desc, championship_type;
 
@@ -15,5 +15,5 @@ GROUP BY competition_id
 HAVING COUNT(*) > 1)
 ORDER by competition_id;
 
-SELECT * FROM wca.eligible_country_iso2s_for_championship;
-SELECT * FROM wca.Continents;
+SELECT * FROM eligible_country_iso2s_for_championship;
+SELECT * FROM Continents;
