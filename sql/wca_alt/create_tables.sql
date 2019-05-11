@@ -95,29 +95,6 @@ CREATE TABLE `wca_alt`.`Countries` (
 
 
 /* --------------------
-    Persons
-   -------------------- */
-
-DROP TABLE IF EXISTS `wca_alt`.`Persons`;
-
-CREATE TABLE `wca_alt`.`Persons` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subid` tinyint(3) unsigned NOT NULL,
-  `countryId` tinyint(3) unsigned NOT NULL,
-  `continentId` tinyint(1) unsigned NOT NULL,
-  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `countryName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `continentName` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gender` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `year` smallint(4) unsigned NOT NULL DEFAULT '0',
-  `month` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  `day` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
-
-
-/* --------------------
     Competitions
    -------------------- */
 
@@ -136,8 +113,11 @@ CREATE TABLE `wca_alt`.`Competitions` (
   `year` smallint(4) unsigned NOT NULL,
   `month` tinyint(2) unsigned NOT NULL,
   `day` tinyint(2) unsigned NOT NULL,
+  `endYear` smallint(4) unsigned NOT NULL,
   `endMonth` tinyint(2) unsigned NOT NULL,
   `endDay` tinyint(2) unsigned NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
   `eventSpecs` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
   `wcaDelegate` text COLLATE utf8mb4_unicode_ci NOT NULL, 
   `organiser` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -171,6 +151,29 @@ CREATE TABLE `wca_alt`.`Scrambles` (
   `isExtra` tinyint(1) NOT NULL,
   `scrambleNum` int(11) NOT NULL,
   `scramble` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
+
+
+/* --------------------
+    Persons
+   -------------------- */
+
+DROP TABLE IF EXISTS `wca_alt`.`Persons`;
+
+CREATE TABLE `wca_alt`.`Persons` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subid` tinyint(3) unsigned NOT NULL,
+  `countryId` tinyint(3) unsigned NOT NULL,
+  `continentId` tinyint(1) unsigned NOT NULL,
+  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `countryName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `continentName` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `year` smallint(4) unsigned NOT NULL DEFAULT '0',
+  `month` tinyint(2) unsigned NOT NULL DEFAULT '0',
+  `day` tinyint(2) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 

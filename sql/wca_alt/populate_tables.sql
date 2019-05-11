@@ -68,30 +68,24 @@ CREATE UNIQUE INDEX `Countries_legacyId` ON `wca_alt`.`Countries` (`legacyId`);
 
 
 /* --------------------
-    Persons
-   -------------------- */
-
-INSERT INTO `wca_alt`.`Persons` (`wcaId`, `subid`, `countryId`, `continentId`, `name`, `countryName`, `continentName`, `gender`)
-SELECT `Persons`.`id`, `Persons`.`subid`, `Countries`.`id`, `Countries`.`continentId`,
-	`Persons`.`name`, `Countries`.`name`, `Countries`.`continentName`, `Persons`.`gender`
-FROM `wca`.`Persons`
-JOIN `wca_alt`.`Countries` ON `Persons`.`countryId` = `Countries`.`legacyId`
-ORDER BY `Persons`.`id`, `Persons`.`subid` DESC;
-
-CREATE UNIQUE INDEX `Persons_wcaId_subid` ON `wca_alt`.`Persons` (`wcaId`, `subid`);
-
-
-/* --------------------
     Competitions
    -------------------- */
 
 INSERT INTO `wca_alt`.`Competitions`
 	(`countryId`, `continentId`, `legacyId`, `name`, `cityName`, `countryName`, `continentName`, `information`,
-    `year`, `month`, `day`, `endMonth`, `endDay`, `eventSpecs`, `wcaDelegate`, `organiser`,
+    `year`, `month`, `day`, `endYear`,
+    `endMonth`, `endDay`,
+    `start_date`, `end_date`,
+    `eventSpecs`, `wcaDelegate`, `organiser`,
     `venue`, `venueAddress`, `venueDetails`, `external_website`, `cellName`, `latitude`, `longitude`)
 SELECT `Countries`.`id`, `Countries`.`continentId`, `Competitions`.`id`,
 	`Competitions`.`name`, `Competitions`.`cityName`, `Countries`.`name`, `Countries`.`ContinentName`, `Competitions`.`information`,
-    `Competitions`.`year`, `Competitions`.`month`, `Competitions`.`day`, `Competitions`.`endMonth`, `Competitions`.`endDay`,
+    `Competitions`.`year`, `Competitions`.`month`, `Competitions`.`day`,
+    CASE WHEN `Competitions`.`endMonth` >= `Competitions`.`month` THEN `Competitions`.`year` ELSE `Competitions`.`year` + 1 END,
+		`Competitions`.`endMonth`, `Competitions`.`endDay`,
+    DATE_FORMAT(CONCAT(`Competitions`.`year`, "-", `Competitions`.`month`, "-", `Competitions`.`day`), "%Y-%m-%d"),
+    DATE_FORMAT(CONCAT(CASE WHEN `Competitions`.`endMonth` >= `Competitions`.`month` THEN `Competitions`.`year` ELSE `Competitions`.`year` + 1 END,
+		"-", `Competitions`.`endMonth`, "-", `Competitions`.`endDay`), "%Y-%m-%d"),
     `Competitions`.`eventSpecs`, `Competitions`.`wcaDelegate`, `Competitions`.`organiser`,
     `Competitions`.`venue`, `Competitions`.`venueAddress`, `Competitions`.`venueDetails`, `Competitions`.`external_website`,
     `Competitions`.`cellName`, `Competitions`.`latitude`, `Competitions`.`longitude`
@@ -120,6 +114,20 @@ JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `Scrambles`.`eventId`
 JOIN `wca_alt`.`Competitions` ON `Competitions`.`legacyId` = `Scrambles`.`competitionId`
 JOIN `wca_alt`.`RoundTypes` ON `RoundTypes`.`code` = `Scrambles`.`roundTypeId`
 ORDER BY `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`, `groupId`, `isExtra`, `scrambleNum`;
+
+
+/* --------------------
+    Persons
+   -------------------- */
+
+INSERT INTO `wca_alt`.`Persons` (`wcaId`, `subid`, `countryId`, `continentId`, `name`, `countryName`, `continentName`, `gender`)
+SELECT `Persons`.`id`, `Persons`.`subid`, `Countries`.`id`, `Countries`.`continentId`,
+	`Persons`.`name`, `Countries`.`name`, `Countries`.`continentName`, `Persons`.`gender`
+FROM `wca`.`Persons`
+JOIN `wca_alt`.`Countries` ON `Persons`.`countryId` = `Countries`.`legacyId`
+ORDER BY `Persons`.`id`, `Persons`.`subid` DESC;
+
+CREATE UNIQUE INDEX `Persons_wcaId_subid` ON `wca_alt`.`Persons` (`wcaId`, `subid`);
 
 
 /* --------------------
