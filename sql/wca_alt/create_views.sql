@@ -5,9 +5,9 @@
 DROP VIEW IF EXISTS wca_alt.ScramblesView;
 
 CREATE VIEW wca_alt.ScramblesView AS
-SELECT s.id, s.legacyId,
-	e.name, c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName, rt.name AS roundTypeName,
-	s.eventId, s.competitionId, s.competitionCountryId, s.competitionContinentId, s.roundTypeId, s.roundTypeCode, s.roundTypeFinal,
+SELECT s.id,
+	e.name AS eventName, c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName, rt.name AS roundTypeName,
+	s.legacyId, s.eventId, s.competitionId, s.competitionCountryId, s.competitionContinentId, s.roundTypeId, s.roundTypeCode, s.roundTypeFinal,
     s.groupId, s.isExtra, s.scrambleNum, s.scramble
 FROM wca_alt.Scrambles AS s
 JOIN wca_alt.Events AS e ON e.id = s.eventId
