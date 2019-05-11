@@ -6,8 +6,8 @@ DROP VIEW IF EXISTS wca_alt.ScramblesView;
 
 CREATE VIEW wca_alt.ScramblesView AS
 SELECT s.id,
-	e.name AS eventName, c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName, rt.name AS roundTypeName,
-	s.legacyId, s.eventId, s.competitionId, s.competitionCountryId, s.competitionContinentId, s.roundTypeId, s.roundTypeCode, s.roundTypeFinal,
+	c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName, e.name AS eventName, rt.name AS roundTypeName,
+	s.legacyId, s.competitionId, s.competitionCountryId, s.competitionContinentId, s.eventId, s.roundTypeId, s.roundTypeCode, s.roundTypeFinal,
     s.groupId, s.isExtra, s.scrambleNum, s.scramble
 FROM wca_alt.Scrambles AS s
 JOIN wca_alt.Events AS e ON e.id = s.eventId
@@ -58,7 +58,7 @@ AS
 SELECT r.id, r.wcaId,
     e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
 	r.personId, r.personCountryId, r.personContinentId,
-	r.competitionId, r.competitionCountryId, r.competitionContinentId,
+	r.competitionId, r.competitionCountryId, r.competitionContinentId, r.competitionDate,
 	r.eventId, r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
     r.pos, r.best, r.average,
 	r.value1, r.value2, r.value3, r.value4, r.value5,
@@ -81,7 +81,7 @@ SELECT r.id, p.wcaId,
     p.name AS personName, p.CountryName AS personCountryName, p.continentName AS personContinentName, p.gender AS personGender,
     e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
 	r.personId, r.personCountryId, r.personContinentId,
-	r.competitionId, r.competitionCountryId, r.competitionContinentId,
+	r.competitionId, r.competitionCountryId, r.competitionContinentId, r.competitionDate,
 	r.eventId, r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
     r.pos, r.best, r.average,
 	r.value1, r.value2, r.value3, r.value4, r.value5,
@@ -105,7 +105,7 @@ SELECT r.id, r.wcaId,
     c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName,
     e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
 	r.personId, r.personCountryId, r.personContinentId,
-	r.competitionId, r.competitionCountryId, r.competitionContinentId,
+	r.competitionId, r.competitionCountryId, r.competitionContinentId, r.competitionDate,
 	r.eventId, r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
     r.pos, r.best, r.average,
 	r.value1, r.value2, r.value3, r.value4, r.value5,

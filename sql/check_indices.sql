@@ -46,6 +46,6 @@ FROM information_schema.tables t
 JOIN mysql.innodb_index_stats i ON i.database_name = t.table_schema AND i.table_name = t.table_name
 WHERE t.engine = 'InnoDB'
 AND t.table_schema = @wca_db
-AND t.table_name = 'Results'
+AND t.table_name = 'Attempts'
 AND stat_name = 'size'
 ORDER BY table_name, index_name, database_name;

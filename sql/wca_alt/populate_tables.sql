@@ -101,19 +101,17 @@ CREATE UNIQUE INDEX `Competitions_legacyId` ON `wca_alt`.`Competitions` (`legacy
    -------------------- */
 
 INSERT INTO `wca_alt`.`Scrambles`
-	(`legacyId`, `eventId`, `competitionId`,
-	`competitionCountryId`, `competitionContinentId`,
-    `roundTypeId`, `roundTypeCode`, `roundTypeFinal`,
+	(`legacyId`, `competitionId`, `competitionCountryId`, `competitionContinentId`,
+    `eventId`, `roundTypeId`, `roundTypeCode`, `roundTypeFinal`,
     `groupId`, `isExtra`, `scrambleNum`, `scramble`)
-SELECT `Scrambles`.`scrambleId`, `Events`.`id`,
-	`Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`,
-    `RoundTypes`.`id`, `RoundTypes`.`code`, `RoundTypes`.`final`,
+SELECT `Scrambles`.`scrambleId`, `Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`,
+    `Events`.`id`, `RoundTypes`.`id`, `RoundTypes`.`code`, `RoundTypes`.`final`,
     `Scrambles`.`groupId`, `Scrambles`.`isExtra`, `Scrambles`.`scrambleNum`, `Scrambles`.`scramble`
 FROM `Scrambles`
 JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `Scrambles`.`eventId`
 JOIN `wca_alt`.`Competitions` ON `Competitions`.`legacyId` = `Scrambles`.`competitionId`
 JOIN `wca_alt`.`RoundTypes` ON `RoundTypes`.`code` = `Scrambles`.`roundTypeId`
-ORDER BY `Events`.`id`, `Competitions`.`id`, `RoundTypes`.`id`, `groupId`, `isExtra`, `scrambleNum`;
+ORDER BY `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`, `groupId`, `isExtra`, `scrambleNum`;
 
 
 /* --------------------
@@ -167,7 +165,7 @@ ORDER BY `Persons`.`id`, `Events`.`id`;
 INSERT INTO `wca_alt`.`Results`
 	(`wcaId`, `personId`,
     `personCountryId`, `personContinentId`,
-	`competitionId`, `competitionCountryId`, `competitionContinentId`,
+	`competitionId`, `competitionCountryId`, `competitionContinentId`, `competitionDate`,
 	`eventId`,
     `roundTypeId`, `roundTypeCode`, `roundTypeFinal`,
 	`formatId`, `formatCode`,
@@ -176,7 +174,7 @@ INSERT INTO `wca_alt`.`Results`
     `regionalSingleRecord`, `regionalAverageRecord`)
 SELECT `Persons`.`wcaId`, `Persons`.`id`,
 	`Countries`.`id`, `Countries`.`ContinentId`,
-	`Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`,
+	`Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`, `Competitions`.`start_date`,
 	`Events`.`id`,
     `RoundTypes`.`id`, `RoundTypes`.`code`, `RoundTypes`.`final`,
     `Formats`.`id`, `Formats`.`code`,
@@ -198,14 +196,14 @@ ORDER BY `Persons`.`id`, `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`;
    -------------------- */
 
 INSERT INTO `wca_alt`.`Attempts`
-	(`wcaId`, `personId`, `competitionId`, `eventId`,
+	(`wcaId`, `personId`, `competitionId`, `competitionDate`, `eventId`,
     `roundTypeId`, `roundTypeFinal`, `formatId`,
 	`pos`, `best`, `average`, `attempt`,
     `value`, `resultSingle`, `resultAverage`, `isDnfSingle`, `isDnfAverage`,
     `regionalSingleRecord`, `regionalAverageRecord`)
 WITH cte AS
 (
-	SELECT `wcaId`, `personId`, `competitionId`, `eventId`,
+	SELECT `wcaId`, `personId`, `competitionId`, `competitionDate`, `eventId`,
 		`roundTypeId`, `roundTypeFinal`, `formatId`,
 		`pos`, `best`, `average`, `seq`,
         @value := CASE WHEN seq = 1 THEN value1 WHEN seq = 2 THEN value2 WHEN seq = 3 THEN value3 WHEN seq = 4 THEN value4 WHEN seq = 5 THEN value5 END AS value,

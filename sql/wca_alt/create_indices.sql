@@ -59,6 +59,8 @@ CREATE INDEX `Competitions_start_date` ON `wca_alt`.`Competitions` (`start_date`
    -------------------- */
 
 CREATE INDEX `Scrambles_competitionId_eventId` ON `wca_alt`.`Scrambles` (`competitionId`, `eventId`);
+CREATE INDEX `Scrambles_competitionCountryId_eventId` ON `wca_alt`.`Scrambles` (`competitionCountryId`, `eventId`);
+CREATE INDEX `Scrambles_competitionContinentId_eventId` ON `wca_alt`.`Scrambles` (`competitionContinentId`, `eventId`);
 CREATE INDEX `Scrambles_eventId` ON `wca_alt`.`Scrambles` (`eventId`);
 
 
@@ -98,17 +100,4 @@ CREATE INDEX `RanksAverage_eventId` ON `wca_alt`.`RanksAverage` (`eventId`);
 CREATE INDEX `Results_personId_eventId` ON `wca_alt`.`Results` (`personId`, `eventId`);
 CREATE INDEX `Results_personCountryId_eventId` ON `wca_alt`.`Results` (`personCountryId`, `eventId`);
 CREATE INDEX `Results_personContinentId_eventId` ON `wca_alt`.`Results` (`personContinentId`, `eventId`);
-CREATE INDEX `Results_competitionId_eventId` ON `wca_alt`.`Results` (`competitionId`, `eventId`);
-CREATE INDEX `Results_competitionCountryId_eventId` ON `wca_alt`.`Results` (`competitionCountryId`, `eventId`);
-CREATE INDEX `Results_competitionContinentId_eventId` ON `wca_alt`.`Results` (`competitionContinentId`, `eventId`);
-CREATE INDEX `Results_wcaId_eventId` ON `wca_alt`.`Results` (`wcaId`, `eventId`);
 CREATE INDEX `Results_eventId` ON `wca_alt`.`Results` (`eventId`);
-
-
-/* --------------------
-    Attempts
-   -------------------- */
-
-CREATE INDEX `Attempts_personId_eventId` ON `wca_alt`.`Attempts` (`personId`, `eventId`);
-CREATE INDEX `Attempts_competitionId_eventId` ON `wca_alt`.`Attempts` (`competitionId`, `eventId`);
-CREATE INDEX `Attempts_wcaId_eventId` ON `wca_alt`.`Attempts` (`wcaId`, `eventId`);
