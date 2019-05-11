@@ -5,14 +5,14 @@
 DROP VIEW IF EXISTS wca_alt.ScramblesView;
 
 CREATE VIEW wca_alt.ScramblesView AS
-SELECT s.`id`, s.`legacyId`,
-	s.`eventId`, s.`competitionId`, s.`competitionCountryId`, s.`competitionContinentId`, s.`roundTypeId`, s.`roundTypeCode`, s.`roundTypeFinal`,
-	e.`name`, c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName, rt.name AS rountTypeName,
-    s.`groupId`, s.`isExtra`, s.`scrambleNum`, s.`scramble`
-FROM `wca_alt`.`Scrambles` AS s
-JOIN `wca_alt`.`Events` AS e ON e.id = s.`eventId`
-JOIN `wca_alt`.`Competitions` AS c ON c.`id` = s.`competitionId`
-JOIN `wca_alt`.`RoundTypes` AS rt ON rt.`id` = s.`roundTypeId`;
+SELECT s.id, s.legacyId,
+	e.name, c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName, rt.name AS roundTypeName,
+	s.eventId, s.competitionId, s.competitionCountryId, s.competitionContinentId, s.roundTypeId, s.roundTypeCode, s.roundTypeFinal,
+    s.groupId, s.isExtra, s.scrambleNum, s.scramble
+FROM wca_alt.Scrambles AS s
+JOIN wca_alt.Events AS e ON e.id = s.eventId
+JOIN wca_alt.Competitions AS c ON c.id = s.competitionId
+JOIN wca_alt.RoundTypes AS rt ON rt.id = s.roundTypeId;
 
 
 /* --------------------
@@ -22,12 +22,13 @@ JOIN `wca_alt`.`RoundTypes` AS rt ON rt.`id` = s.`roundTypeId`;
 DROP VIEW IF EXISTS wca_alt.RanksSingleView;
 
 CREATE VIEW wca_alt.RanksSingleView AS
-SELECT r.id, r.`personId`, r.`countryId`, r.`continentId`, r.`eventId`,
-	p.wcaId, p.name AS personName, p.countryName, p.continentName, e.name AS eventName,
-	`best`, `worldRank`, `continentRank`, `countryRank`
-FROM `wca_alt`.`RanksSingle` AS r
-JOIN `wca_alt`.`Persons` AS p ON p.`id` = r.`personId`
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`;
+SELECT r.id,
+	e.name AS eventName, p.wcaId, p.name AS personName, p.countryName, p.continentName,
+	r.personId, r.countryId, r.continentId, r.eventId,
+	best, worldRank, continentRank, countryRank
+FROM wca_alt.RanksSingle AS r
+JOIN wca_alt.Persons AS p ON p.id = r.personId
+JOIN wca_alt.Events AS e ON e.id = r.eventId;
 
 
 /* --------------------
@@ -37,12 +38,13 @@ JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`;
 DROP VIEW IF EXISTS wca_alt.RanksAverageView;
 
 CREATE VIEW wca_alt.RanksAverageView AS
-SELECT r.id, r.`personId`, r.`countryId`, r.`continentId`, r.`eventId`,
-	p.wcaId, p.name AS personName, p.countryName, p.continentName, e.name AS eventName,
-	`best`, `worldRank`, `continentRank`, `countryRank`
-FROM `wca_alt`.`RanksAverage` AS r
-JOIN `wca_alt`.`Persons` AS p ON p.`id` = r.`personId`
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`;
+SELECT r.id,
+	e.name AS eventName, p.wcaId, p.name AS personName, p.countryName, p.continentName,
+	r.personId, r.countryId, r.continentId, r.eventId,
+	best, worldRank, continentRank, countryRank
+FROM wca_alt.RanksAverage AS r
+JOIN wca_alt.Persons AS p ON p.id = r.personId
+JOIN wca_alt.Events AS e ON e.id = r.eventId;
 
 
 /* --------------------
@@ -53,17 +55,19 @@ DROP VIEW IF EXISTS wca_alt.ResultsView;
 
 CREATE VIEW wca_alt.ResultsView
 AS
-SELECT r.id, r.`personId`, r.`personCountryId`, r.`personContinentId`,
-	r.`competitionId`, r.`competitionCountryId`, r.`competitionContinentId`,
-	r.`eventId`, r.`roundTypeId`, r.`roundTypeCode`, r.`roundTypeFinal`, r.`formatId`, r.`formatCode`,
-    e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
-    r.`wcaId`, r.`pos`, r.`best`, r.`average`,
-	r.`value1`, r.`value2`, r.`value3`, r.`value4`, r.`value5`,
-    r.`regionalSingleRecord`, r.`regionalAverageRecord`
-FROM `wca_alt`.`Results` AS r
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`
-JOIN `wca_alt`.`RoundTypes` AS rt ON rt.`id` = r.`roundTypeId`
-JOIN `wca_alt`.`Formats` AS f ON f.`id` = r.`formatId`;
+SELECT r.id,
+	e.name AS eventName, r.wcaId,
+    rt.name AS roundTypeName, f.name AS formatName,
+	r.eventId, r.personId, r.personCountryId, r.personContinentId,
+	r.competitionId, r.competitionCountryId, r.competitionContinentId,
+	r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
+    r.pos, r.best, r.average,
+	r.value1, r.value2, r.value3, r.value4, r.value5,
+    r.regionalSingleRecord, r.regionalAverageRecord
+FROM wca_alt.Results AS r
+JOIN wca_alt.Events AS e ON e.id = r.eventId
+JOIN wca_alt.RoundTypes AS rt ON rt.id = r.roundTypeId
+JOIN wca_alt.Formats AS f ON f.id = r.formatId;
 
 
 /* --------------------
@@ -74,19 +78,21 @@ DROP VIEW IF EXISTS wca_alt.PersonResultsView;
 
 CREATE VIEW wca_alt.PersonResultsView
 AS
-SELECT r.id, r.`personId`, r.`personCountryId`, r.`personContinentId`,
-	r.`competitionId`, r.`competitionCountryId`, r.`competitionContinentId`,
-	r.`eventId`, r.`roundTypeId`, r.`roundTypeCode`, r.`roundTypeFinal`, r.`formatId`, r.`formatCode`,
-	p.name AS personName, p.CountryName AS personCountryName, p.continentName AS personContinentName, p.gender AS personGender,
-    e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
-    p.`wcaId`, r.`pos`, r.`best`, r.`average`,
-	r.`value1`, r.`value2`, r.`value3`, r.`value4`, r.`value5`,
-    r.`regionalSingleRecord`, r.`regionalAverageRecord`
-FROM `wca_alt`.`Results` AS r
-JOIN `wca_alt`.`Persons` AS p ON p.`id` = r.`personId`
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`
-JOIN `wca_alt`.`RoundTypes` AS rt ON rt.`id` = r.`roundTypeId`
-JOIN `wca_alt`.`Formats` AS f ON f.`id` = r.`formatId`;
+SELECT r.id,
+	e.name AS eventName,
+    p.wcaId, p.name AS personName, p.CountryName AS personCountryName, p.continentName AS personContinentName, p.gender AS personGender,
+    rt.name AS roundTypeName, f.name AS formatName,
+	r.eventId, r.personId, r.personCountryId, r.personContinentId,
+	r.competitionId, r.competitionCountryId, r.competitionContinentId,
+	r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
+    r.pos, r.best, r.average,
+	r.value1, r.value2, r.value3, r.value4, r.value5,
+    r.regionalSingleRecord, r.regionalAverageRecord
+FROM wca_alt.Results AS r
+JOIN wca_alt.Persons AS p ON p.id = r.personId
+JOIN wca_alt.Events AS e ON e.id = r.eventId
+JOIN wca_alt.RoundTypes AS rt ON rt.id = r.roundTypeId
+JOIN wca_alt.Formats AS f ON f.id = r.formatId;
 
 
 /* --------------------
@@ -97,19 +103,21 @@ DROP VIEW IF EXISTS wca_alt.CompetitionResultsView;
 
 CREATE VIEW wca_alt.CompetitionResultsView
 AS
-SELECT r.id, r.`personId`, r.`personCountryId`, r.`personContinentId`,
-	r.`competitionId`, r.`competitionCountryId`, r.`competitionContinentId`,
-	r.`eventId`, r.`roundTypeId`, r.`roundTypeCode`, r.`roundTypeFinal`, r.`formatId`, r.`formatCode`,
-	c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName,
-    e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
-    r.`wcaId`, r.`pos`, r.`best`, r.`average`,
-	r.`value1`, r.`value2`, r.`value3`, r.`value4`, r.`value5`,
-    r.`regionalSingleRecord`, r.`regionalAverageRecord`
-FROM `wca_alt`.`Results` AS r
-JOIN `wca_alt`.`Competitions` AS c ON c.`id` = r.`competitionId`
-JOIN `wca_alt`.`Events` AS e ON e.id = r.`eventId`
-JOIN `wca_alt`.`RoundTypes` AS rt ON rt.`id` = r.`roundTypeId`
-JOIN `wca_alt`.`Formats` AS f ON f.`id` = r.`formatId`;
+SELECT r.id,
+	e.name AS eventName, r.wcaId,
+    c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName,
+    rt.name AS roundTypeName, f.name AS formatName,
+	r.eventId, r.personId, r.personCountryId, r.personContinentId,
+	r.competitionId, r.competitionCountryId, r.competitionContinentId,
+	r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
+    r.pos, r.best, r.average,
+	r.value1, r.value2, r.value3, r.value4, r.value5,
+    r.regionalSingleRecord, r.regionalAverageRecord
+FROM wca_alt.Results AS r
+JOIN wca_alt.Competitions AS c ON c.id = r.competitionId
+JOIN wca_alt.Events AS e ON e.id = r.eventId
+JOIN wca_alt.RoundTypes AS rt ON rt.id = r.roundTypeId
+JOIN wca_alt.Formats AS f ON f.id = r.formatId;
 
 
 /* --------------------

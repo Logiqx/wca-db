@@ -135,14 +135,14 @@ CREATE UNIQUE INDEX `Persons_wcaId_subid` ON `wca_alt`.`Persons` (`wcaId`, `subi
    -------------------- */
 
 INSERT INTO `wca_alt`.`RanksSingle`
-	(`personId`, `countryId`, `continentId`, `eventId`, `wcaId`,
+	(`eventId`, `personId`, `countryId`, `continentId`,
     `best`, `worldRank`, `continentRank`, `countryRank`)
-SELECT `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`, `Events`.`id`, `RanksSingle`.`personId`,
+SELECT `Events`.`id`, `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`,
 	`RanksSingle`.`best`, `RanksSingle`.`worldRank`, `RanksSingle`.`continentRank`, `RanksSingle`.`countryRank`
 FROM `RanksSingle` USE INDEX ()
 JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `RanksSingle`.`eventId`
 JOIN `wca_alt`.`Persons` ON `Persons`.`wcaId` = `RanksSingle`.`personId` AND `Persons`.`subid` = 1
-ORDER BY `Persons`.`id`, `Events`.`id`;
+ORDER BY `Events`.`id`, `Persons`.`id`;
 
 
 /* --------------------
@@ -150,14 +150,14 @@ ORDER BY `Persons`.`id`, `Events`.`id`;
    -------------------- */
 
 INSERT INTO `wca_alt`.`RanksAverage`
-	(`personId`, `countryId`, `continentId`, `eventId`, `wcaId`,
+	(`eventId`, `personId`, `countryId`, `continentId`,
     `best`, `worldRank`, `continentRank`, `countryRank`)
-SELECT `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`, `Events`.`id`, `RanksAverage`.`personId`,
+SELECT `Events`.`id`, `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`,
 	`RanksAverage`.`best`, `RanksAverage`.`worldRank`, `RanksAverage`.`continentRank`, `RanksAverage`.`countryRank`
 FROM `RanksAverage` USE INDEX ()
 JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `RanksAverage`.`eventId`
 JOIN `wca_alt`.`Persons` ON `Persons`.`wcaId` = `RanksAverage`.`personId` AND `Persons`.`subid` = 1
-ORDER BY `Persons`.`id`, `Events`.`id`;
+ORDER BY `Events`.`id`, `Persons`.`id`;
 
 
 /* --------------------

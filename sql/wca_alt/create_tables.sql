@@ -187,11 +187,10 @@ DROP TABLE IF EXISTS `wca_alt`.`RanksSingle`;
 
 CREATE TABLE `wca_alt`.`RanksSingle` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `eventId` tinyint(2) unsigned NOT NULL,
   `personId` mediumint(8) unsigned NOT NULL,
   `countryId` tinyint(3) unsigned NOT NULL,
   `continentId` tinyint(1) unsigned NOT NULL,
-  `eventId` tinyint(2) unsigned NOT NULL,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `best` int(11) NOT NULL,
   `worldRank` mediumint(8) unsigned NOT NULL,
   `continentRank` mediumint(8) unsigned NOT NULL,
@@ -208,11 +207,10 @@ DROP TABLE IF EXISTS `wca_alt`.`RanksAverage`;
 
 CREATE TABLE `wca_alt`.`RanksAverage` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `eventId` tinyint(2) unsigned NOT NULL,
   `personId` mediumint(8) unsigned NOT NULL,
   `countryId` tinyint(3) unsigned NOT NULL,
   `continentId` tinyint(1) unsigned NOT NULL,
-  `eventId` tinyint(2) unsigned NOT NULL,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `best` int(11) NOT NULL,
   `worldRank` mediumint(8) unsigned NOT NULL,
   `continentRank` mediumint(8) unsigned NOT NULL,
