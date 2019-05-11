@@ -98,25 +98,17 @@ CREATE INDEX `RanksAverage_eventId` ON `wca_alt`.`RanksAverage` (`eventId`);
 CREATE INDEX `Results_personId_eventId` ON `wca_alt`.`Results` (`personId`, `eventId`);
 CREATE INDEX `Results_personCountryId_eventId` ON `wca_alt`.`Results` (`personCountryId`, `eventId`);
 CREATE INDEX `Results_personContinentId_eventId` ON `wca_alt`.`Results` (`personContinentId`, `eventId`);
-
 CREATE INDEX `Results_competitionId_eventId` ON `wca_alt`.`Results` (`competitionId`, `eventId`);
 CREATE INDEX `Results_competitionCountryId_eventId` ON `wca_alt`.`Results` (`competitionCountryId`, `eventId`);
 CREATE INDEX `Results_competitionContinentId_eventId` ON `wca_alt`.`Results` (`competitionContinentId`, `eventId`);
-
 CREATE INDEX `Results_wcaId_eventId` ON `wca_alt`.`Results` (`wcaId`, `eventId`);
-
--- CREATE INDEX `Results_roundTypeId_eventId` ON `wca_alt`.`Results` (`roundTypeId`, `eventId`);
--- DROP INDEX `Results_roundTypeId_eventId` ON `wca_alt`.`Results` ;
--- CREATE INDEX `Results_roundTypeId` ON `wca_alt`.`Results` (`roundTypeId`);
--- DROP INDEX `Results_roundTypeId` ON `wca_alt`.`Results` ;
--- CREATE INDEX `Results_formatId_eventId` ON `wca_alt`.`Results` (`formatId`, `eventId`);
--- DROP INDEX `Results_formatId_eventId` ON `wca_alt`.`Results` ;
--- CREATE INDEX `Results_eventId` ON `wca_alt`.`Results` (`eventId`);
--- DROP INDEX `Results_eventId` ON `wca_alt`.`Results`;
+CREATE INDEX `Results_eventId` ON `wca_alt`.`Results` (`eventId`);
 
 
 /* --------------------
     Attempts
    -------------------- */
 
--- TODO
+CREATE INDEX `Attempts_personId_eventId` ON `wca_alt`.`Attempts` (`personId`, `eventId`);
+CREATE INDEX `Attempts_competitionId_eventId` ON `wca_alt`.`Attempts` (`competitionId`, `eventId`);
+CREATE INDEX `Attempts_wcaId_eventId` ON `wca_alt`.`Attempts` (`wcaId`, `eventId`);

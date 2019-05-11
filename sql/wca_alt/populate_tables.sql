@@ -135,14 +135,14 @@ CREATE UNIQUE INDEX `Persons_wcaId_subid` ON `wca_alt`.`Persons` (`wcaId`, `subi
    -------------------- */
 
 INSERT INTO `wca_alt`.`RanksSingle`
-	(`eventId`, `personId`, `countryId`, `continentId`,
+	(`wcaId`, `personId`, `countryId`, `continentId`, `eventId`,
     `best`, `worldRank`, `continentRank`, `countryRank`)
-SELECT `Events`.`id`, `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`,
+SELECT `Persons`.`wcaId`, `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`, `Events`.`id`,
 	`RanksSingle`.`best`, `RanksSingle`.`worldRank`, `RanksSingle`.`continentRank`, `RanksSingle`.`countryRank`
 FROM `RanksSingle` USE INDEX ()
 JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `RanksSingle`.`eventId`
 JOIN `wca_alt`.`Persons` ON `Persons`.`wcaId` = `RanksSingle`.`personId` AND `Persons`.`subid` = 1
-ORDER BY `Events`.`id`, `Persons`.`id`;
+ORDER BY `Persons`.`id`, `Events`.`id`;
 
 
 /* --------------------
@@ -150,14 +150,14 @@ ORDER BY `Events`.`id`, `Persons`.`id`;
    -------------------- */
 
 INSERT INTO `wca_alt`.`RanksAverage`
-	(`eventId`, `personId`, `countryId`, `continentId`,
+	(`wcaId`, `personId`, `countryId`, `continentId`, `eventId`,
     `best`, `worldRank`, `continentRank`, `countryRank`)
-SELECT `Events`.`id`, `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`,
+SELECT `Persons`.`wcaId`, `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`, `Events`.`id`,
 	`RanksAverage`.`best`, `RanksAverage`.`worldRank`, `RanksAverage`.`continentRank`, `RanksAverage`.`countryRank`
 FROM `RanksAverage` USE INDEX ()
 JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `RanksAverage`.`eventId`
 JOIN `wca_alt`.`Persons` ON `Persons`.`wcaId` = `RanksAverage`.`personId` AND `Persons`.`subid` = 1
-ORDER BY `Events`.`id`, `Persons`.`id`;
+ORDER BY `Persons`.`id`, `Events`.`id`;
 
 
 /* --------------------
@@ -165,22 +165,22 @@ ORDER BY `Events`.`id`, `Persons`.`id`;
    -------------------- */
 
 INSERT INTO `wca_alt`.`Results`
-	(`personId`,
+	(`wcaId`, `personId`,
     `personCountryId`, `personContinentId`,
 	`competitionId`, `competitionCountryId`, `competitionContinentId`,
 	`eventId`,
     `roundTypeId`, `roundTypeCode`, `roundTypeFinal`,
 	`formatId`, `formatCode`,
-    `wcaId`, `pos`, `best`, `average`,
+    `pos`, `best`, `average`,
 	`value1`, `value2`, `value3`, `value4`, `value5`,
     `regionalSingleRecord`, `regionalAverageRecord`)
-SELECT `Persons`.`id`,
+SELECT `Persons`.`wcaId`, `Persons`.`id`,
 	`Countries`.`id`, `Countries`.`ContinentId`,
 	`Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`,
 	`Events`.`id`,
     `RoundTypes`.`id`, `RoundTypes`.`code`, `RoundTypes`.`final`,
     `Formats`.`id`, `Formats`.`code`,
-    `Results`.`personId`, `Results`.`pos`, `Results`.`best`, `Results`.`average`,
+    `Results`.`pos`, `Results`.`best`, `Results`.`average`,
     `Results`.`value1`, `Results`.`value2`, `Results`.`value3`, `Results`.`value4`, `Results`.`value5`,
     `Results`.`regionalSingleRecord`, `Results`.`regionalAverageRecord`
 FROM `wca`.`Results` USE INDEX ()
@@ -198,32 +198,26 @@ ORDER BY `Persons`.`id`, `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`;
    -------------------- */
 
 INSERT INTO `wca_alt`.`Attempts`
-	(`resultId`, `eventId`, `personId`, -- `personCountryId`, `personContinentId`,
-	`competitionId`, -- `competitionCountryId`, `competitionContinentId`,
-	`roundTypeId`, -- `roundTypeCode`,
-    `formatId`, -- `formatCode`,
-	-- `eventName`, `personName`, `personCountryName`, `personContinentName`,
-    -- `wcaId`, `competitionName`, `competitionCountryName`, `competitionContinentName`,
-    -- `roundTypeName`, `formatName`, `pos`, `best`, `average`,
-	`attempt`, `value`, `average`,
+	(`wcaId`, `personId`, `competitionId`, `eventId`,
+    `roundTypeId`, `roundTypeFinal`, `formatId`,
+	`pos`, `best`, `average`, `attempt`,
+    `value`, `resultSingle`, `resultAverage`, `isDnfSingle`, `isDnfAverage`,
     `regionalSingleRecord`, `regionalAverageRecord`)
-WITH r AS
+WITH cte AS
 (
-	SELECT `id`, `eventId`, `personId`, -- `personCountryId`, `personContinentId`,
-		`competitionId`, -- `competitionCountryId`, `competitionContinentId`,
-		`roundTypeId`, -- `roundTypeCode`,
-		`formatId`, -- `formatCode`,
-		-- `eventName`, `personName`, `personCountryName`, `personContinentName`,
-		-- `wcaId`, `competitionName`, `competitionCountryName`, `competitionContinentName`,
-		-- `roundTypeName`, `formatName`, `pos`, `best`, `average`,
-		`seq`,
-		CASE
-			WHEN seq = 1 THEN value1 WHEN seq = 2 THEN value2 WHEN seq = 3 THEN value3 WHEN seq = 4 THEN value4 WHEN seq = 5 THEN value5
-		END AS value,
-		`average`,
-		`regionalSingleRecord`, `regionalAverageRecord`
+	SELECT `wcaId`, `personId`, `competitionId`, `eventId`,
+		`roundTypeId`, `roundTypeFinal`, `formatId`,
+		`pos`, `best`, `average`, `seq`,
+        @value := CASE WHEN seq = 1 THEN value1 WHEN seq = 2 THEN value2 WHEN seq = 3 THEN value3 WHEN seq = 4 THEN value4 WHEN seq = 5 THEN value5 END AS value,
+        IF(@value > 0, @value, NULL) AS resultSingle,
+        IF(average > 0, average, NULL) AS resultAverage,
+        IF(@value = -1, 1, 0) AS isDnfSingle,
+        IF(average = -1, 1, 0) AS isDnfAverage,
+        IF(regionalSingleRecord != '' AND @value = best, regionalSingleRecord, '') AS regionalSingleRecord,
+        `regionalAverageRecord`
 	FROM `wca_alt`.`Results`
-	JOIN `seq_1_to_5`)
+	JOIN `seq_1_to_5`
+)
 SELECT *
-FROM r
-WHERE value != 0;
+FROM cte
+WHERE value NOT IN (0, -2);
