@@ -2,13 +2,17 @@
     Scrambles
    -------------------- */
 
--- TODO
+DROP VIEW IF EXISTS wca_alt.ScramblesView;
 
---   `eventName` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
---   `competitionName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
---   `competitionCountryName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
---   `competitionContinentName` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
---   `roundTypeName` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE VIEW wca_alt.ScramblesView AS
+SELECT s.`id`, s.`legacyId`,
+	s.`eventId`, s.`competitionId`, s.`competitionCountryId`, s.`competitionContinentId`, s.`roundTypeId`, s.`roundTypeCode`, s.`roundTypeFinal`,
+	e.`name`, c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName, rt.name AS rountTypeName,
+    s.`groupId`, s.`isExtra`, s.`scrambleNum`, s.`scramble`
+FROM `wca_alt`.`Scrambles` AS s
+JOIN `wca_alt`.`Events` AS e ON e.id = s.`eventId`
+JOIN `wca_alt`.`Competitions` AS c ON c.`id` = s.`competitionId`
+JOIN `wca_alt`.`RoundTypes` AS rt ON rt.`id` = s.`roundTypeId`;
 
 
 /* --------------------

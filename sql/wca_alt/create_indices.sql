@@ -51,6 +51,7 @@ CREATE UNIQUE INDEX `Competitions_name` ON `wca_alt`.`Competitions` (`name`);
 CREATE INDEX `Competitions_countryName` ON `wca_alt`.`Competitions` (`countryName`);
 CREATE INDEX `Competitions_continentName` ON `wca_alt`.`Competitions` (`continentName`);
 CREATE INDEX `Competitions_year_month_day` ON `wca_alt`.`Competitions` (`year`, `month`, `day`);
+CREATE INDEX `Competitions_start_date` ON `wca_alt`.`Competitions` (`start_date`);
 
 
 /* --------------------

@@ -83,15 +83,15 @@ SELECT `Countries`.`id`, `Countries`.`continentId`, `Competitions`.`id`,
     `Competitions`.`year`, `Competitions`.`month`, `Competitions`.`day`,
     CASE WHEN `Competitions`.`endMonth` >= `Competitions`.`month` THEN `Competitions`.`year` ELSE `Competitions`.`year` + 1 END,
 		`Competitions`.`endMonth`, `Competitions`.`endDay`,
-    DATE_FORMAT(CONCAT(`Competitions`.`year`, "-", `Competitions`.`month`, "-", `Competitions`.`day`), "%Y-%m-%d"),
+    DATE_FORMAT(CONCAT(`Competitions`.`year`, "-", `Competitions`.`month`, "-", `Competitions`.`day`), "%Y-%m-%d") AS start_date,
     DATE_FORMAT(CONCAT(CASE WHEN `Competitions`.`endMonth` >= `Competitions`.`month` THEN `Competitions`.`year` ELSE `Competitions`.`year` + 1 END,
-		"-", `Competitions`.`endMonth`, "-", `Competitions`.`endDay`), "%Y-%m-%d"),
+		"-", `Competitions`.`endMonth`, "-", `Competitions`.`endDay`), "%Y-%m-%d") AS end_date,
     `Competitions`.`eventSpecs`, `Competitions`.`wcaDelegate`, `Competitions`.`organiser`,
     `Competitions`.`venue`, `Competitions`.`venueAddress`, `Competitions`.`venueDetails`, `Competitions`.`external_website`,
     `Competitions`.`cellName`, `Competitions`.`latitude`, `Competitions`.`longitude`
 FROM `wca`.`Competitions`
 JOIN `wca_alt`.`Countries` ON `Competitions`.`countryId` = `Countries`.`legacyId`
-ORDER BY `Competitions`.`year`, `Competitions`.`month`, `Competitions`.`day`, `Countries`.`id`, `Competitions`.`name`;
+ORDER BY start_date, end_date, `Competitions`.`name`;
 
 CREATE UNIQUE INDEX `Competitions_legacyId` ON `wca_alt`.`Competitions` (`legacyId`);
 
@@ -103,17 +103,17 @@ CREATE UNIQUE INDEX `Competitions_legacyId` ON `wca_alt`.`Competitions` (`legacy
 INSERT INTO `wca_alt`.`Scrambles`
 	(`legacyId`, `eventId`, `competitionId`,
 	`competitionCountryId`, `competitionContinentId`,
-    `roundTypeId`, `roundTypeCode`,
+    `roundTypeId`, `roundTypeCode`, `roundTypeFinal`,
     `groupId`, `isExtra`, `scrambleNum`, `scramble`)
 SELECT `Scrambles`.`scrambleId`, `Events`.`id`,
 	`Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`,
-    `RoundTypes`.`id`, `Scrambles`.`roundTypeId`,
+    `RoundTypes`.`id`, `RoundTypes`.`code`, `RoundTypes`.`final`,
     `Scrambles`.`groupId`, `Scrambles`.`isExtra`, `Scrambles`.`scrambleNum`, `Scrambles`.`scramble`
 FROM `Scrambles`
 JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `Scrambles`.`eventId`
 JOIN `wca_alt`.`Competitions` ON `Competitions`.`legacyId` = `Scrambles`.`competitionId`
 JOIN `wca_alt`.`RoundTypes` ON `RoundTypes`.`code` = `Scrambles`.`roundTypeId`
-ORDER BY `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`, `groupId`, `isExtra`, `scrambleNum`;
+ORDER BY `Events`.`id`, `Competitions`.`id`, `RoundTypes`.`id`, `groupId`, `isExtra`, `scrambleNum`;
 
 
 /* --------------------
