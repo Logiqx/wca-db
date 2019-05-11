@@ -1,8 +1,8 @@
-/* 
-    Script:   Explore Tables
+/*
+    Script:   Explore Countries
     Created:  2019-05-07
     Author:   Michael George / 2015GEOR02
-   
+
     Purpose:  Basic exploration of the database to understand exceptions, etc.
 */
 
@@ -12,7 +12,7 @@
 
 /*
   List of countries where id and name differ
-  
+
   Cote d_Ivoire	Côte d'Ivoire	_Africa	CI
   Democratic People_s Republic of Korea	Democratic People’s Republic of Korea	_Asia	KP
   Korea	Republic of Korea	_Asia	KR

@@ -1,11 +1,17 @@
--- IMPORTANT: List duplicate entries in the Persons table - none
+/*
+    Script:   Explore Persons
+    Created:  2019-05-08
+    Author:   Michael George / 2015GEOR02
 
+    Purpose:  Basic exploration of the database to understand exceptions, etc.
+*/
+
+-- IMPORTANT: List duplicate entries in the persons table - none
 SELECT p1.*, p2.*
 FROM Persons p1
 JOIN Persons p2 ON p2.id = p1.id AND p2.subid != p1.subid AND p2.name = p1.name AND p2.countryId = p1.countryId;
 
--- List entries in the Persons table which have had multiple changes
-
+-- List records in the persons table which include multiple changes
 WITH MultiPersons AS
 (
 	SELECT id
