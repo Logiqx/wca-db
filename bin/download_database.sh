@@ -5,4 +5,4 @@ CONTAINER=$(docker ps -q -f name=wca_notebook)
 PYTHON_DIR=work/wca-db/python
 
 # Run the download script
-docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --ExecutePreprocessor.timeout=300 --to notebook --execute --inplace Download_Database.ipynb"
+time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --ExecutePreprocessor.timeout=300 --to notebook --execute --inplace Download_Database.ipynb"
