@@ -1,7 +1,7 @@
 ARG NOTEBOOK_VERSION
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION:-latest}
 
-RUN pip install beautifulsoup4 lxml
+RUN pip install beautifulsoup4 lxml google
 
 # Ideally apt-get would use sudo but it requires the jovyan password
 USER root
