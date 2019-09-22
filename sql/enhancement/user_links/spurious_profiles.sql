@@ -31,10 +31,10 @@ JOIN users AS u ON u.id = r.user_id
 WHERE deleted_at IS NULL
 AND NOT EXISTS
 (
-	SELECT 1
-	FROM registration_duplicates AS d
-    WHERE d.competition_id = r.competition_id
-    AND d.name = LEFT(u.name, 80)
+  SELECT 1
+  FROM registration_duplicates AS d
+  WHERE d.competition_id = r.competition_id
+  AND d.name = LEFT(u.name, 80)
 );
 
 ALTER TABLE registration_users ADD PRIMARY KEY (competition_id, name);
@@ -43,22 +43,22 @@ ALTER TABLE registration_users ADD PRIMARY KEY (competition_id, name);
 SELECT user_id, name, GROUP_CONCAT(DISTINCT countryId) AS country_ids, GROUP_CONCAT(DISTINCT personId) AS result_ids
 FROM
 (
-	SELECT personName, competitionId, countryId, personId
-	FROM
+  SELECT personName, competitionId, countryId, personId
+  FROM
+  (
+    SELECT DISTINCT id
+    FROM Persons
+    WHERE name IN
     (
-      SELECT DISTINCT id
+      SELECT name
       FROM Persons
-      WHERE name IN
-      (
-	      SELECT name
-	      FROM Persons
-	      GROUP BY name
-	      HAVING COUNT(DISTINCT id) > 1
-      )
-	) AS d
-	JOIN Results AS r ON r.personId = d.id
-	GROUP BY personName, competitionId
-	HAVING COUNT(DISTINCT personId) = 1
+      GROUP BY name
+      HAVING COUNT(DISTINCT id) > 1
+    )
+  ) AS d
+  JOIN Results AS r ON r.personId = d.id
+  GROUP BY personName, competitionId
+  HAVING COUNT(DISTINCT personId) = 1
 ) AS r
 JOIN registration_users u ON u.competition_id = r.competitionId AND u.name = r.personName
 GROUP BY user_id
