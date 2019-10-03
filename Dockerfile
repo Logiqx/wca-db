@@ -23,14 +23,15 @@ RUN chmod 644 ${PROJDIR}/sql/*.sql
 # Create final image from Python (Alpine) + MySQL client
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 RUN apk update && \
-    apk add mysql-client
+    apk add --no-cache mysql-client
 
 # Environment variables
 ENV NB_USER=jovyan
 ENV PROJDIR=/home/${NB_USER}/work/wca-db
 
 # Create the notebook user and project structure
-RUN addgroup -S ${NB_USER} && adduser -S ${NB_USER} -G ${NB_USER}
+RUN addgroup -S ${NB_USER} && \
+    adduser -S ${NB_USER} -G ${NB_USER}
 USER ${NB_USER}
 
 # Copy project files
