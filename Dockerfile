@@ -22,6 +22,8 @@ RUN chmod 644 ${PROJDIR}/sql/*.sql
 
 # Create final image from Python (Alpine)
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+
+# Install MySQL client
 RUN apk update && \
     apk add --no-cache mysql-client
 
