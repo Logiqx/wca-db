@@ -23,7 +23,7 @@ DROP VIEW IF EXISTS wca_alt.RanksSingleView;
 
 CREATE VIEW wca_alt.RanksSingleView AS
 SELECT r.id,
-	p.wcaId, p.name AS personName, p.countryName, p.continentName, p.gender AS personGender, e.name AS eventName,
+	p.name AS personName, p.countryName, p.continentName, p.gender AS personGender, e.name AS eventName,
     r.personId, r.countryId, r.continentId, r.eventId,
 	best, worldRank, continentRank, countryRank
 FROM wca_alt.RanksSingle AS r
@@ -39,7 +39,7 @@ DROP VIEW IF EXISTS wca_alt.RanksAverageView;
 
 CREATE VIEW wca_alt.RanksAverageView AS
 SELECT r.id,
-	p.wcaId, p.name AS personName, p.countryName, p.continentName, p.gender AS personGender, e.name AS eventName,
+	p.name AS personName, p.countryName, p.continentName, p.gender AS personGender, e.name AS eventName,
     r.personId, r.countryId, r.continentId, r.eventId,
 	best, worldRank, continentRank, countryRank
 FROM wca_alt.RanksAverage AS r
@@ -55,9 +55,9 @@ DROP VIEW IF EXISTS wca_alt.ResultsView;
 
 CREATE VIEW wca_alt.ResultsView
 AS
-SELECT r.id, r.wcaId,
+SELECT r.id,
     e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
-	r.personId, r.personCountryId, r.personContinentId,
+	r.personId, r.personLinkId, r.personCountryId, r.personContinentId,
 	r.competitionId, r.competitionCountryId, r.competitionContinentId, r.competitionDate,
 	r.eventId, r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
     r.pos, r.best, r.average,
@@ -80,7 +80,7 @@ AS
 SELECT r.id, p.wcaId,
     p.name AS personName, p.CountryName AS personCountryName, p.continentName AS personContinentName, p.gender AS personGender,
     e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
-	r.personId, r.personCountryId, r.personContinentId,
+	r.personId, r.personLinkId, r.personCountryId, r.personContinentId,
 	r.competitionId, r.competitionCountryId, r.competitionContinentId, r.competitionDate,
 	r.eventId, r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
     r.pos, r.best, r.average,
@@ -101,10 +101,10 @@ DROP VIEW IF EXISTS wca_alt.CompetitionResultsView;
 
 CREATE VIEW wca_alt.CompetitionResultsView
 AS
-SELECT r.id, r.wcaId,
+SELECT r.id,
     c.name AS competitionName, c.countryName AS competitionCountryName, c.continentName AS competitionContinentName,
     e.name AS eventName, rt.name AS roundTypeName, f.name AS formatName,
-	r.personId, r.personCountryId, r.personContinentId,
+	r.personId, r.personLinkId, r.personCountryId, r.personContinentId,
 	r.competitionId, r.competitionCountryId, r.competitionContinentId, r.competitionDate,
 	r.eventId, r.roundTypeId, r.roundTypeCode, r.roundTypeFinal, r.formatId, r.formatCode,
     r.pos, r.best, r.average,

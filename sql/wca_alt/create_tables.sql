@@ -164,6 +164,7 @@ DROP TABLE IF EXISTS `wca_alt`.`Persons`;
 
 CREATE TABLE `wca_alt`.`Persons` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `linkId` mediumint(8) unsigned NOT NULL DEFAULT 0,
   `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subid` tinyint(3) unsigned NOT NULL,
   `countryId` tinyint(3) unsigned NOT NULL,
@@ -187,7 +188,6 @@ DROP TABLE IF EXISTS `wca_alt`.`RanksSingle`;
 
 CREATE TABLE `wca_alt`.`RanksSingle` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `personId` mediumint(8) unsigned NOT NULL,
   `countryId` tinyint(3) unsigned NOT NULL,
   `continentId` tinyint(1) unsigned NOT NULL,
@@ -208,7 +208,6 @@ DROP TABLE IF EXISTS `wca_alt`.`RanksAverage`;
 
 CREATE TABLE `wca_alt`.`RanksAverage` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `personId` mediumint(8) unsigned NOT NULL,
   `countryId` tinyint(3) unsigned NOT NULL,
   `continentId` tinyint(1) unsigned NOT NULL,
@@ -229,8 +228,8 @@ DROP TABLE IF EXISTS `wca_alt`.`Results`;
 
 CREATE TABLE `wca_alt`.`Results` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `personId` mediumint(8) unsigned NOT NULL,
+  `personLinkId` mediumint(8) unsigned NOT NULL,
   `personCountryId` tinyint(3) unsigned NOT NULL,
   `personContinentId` tinyint(1) unsigned NOT NULL,
   `competitionId` mediumint(8) unsigned NOT NULL,
@@ -265,8 +264,8 @@ DROP TABLE IF EXISTS `wca_alt`.`Attempts`;
 
 CREATE TABLE `wca_alt`.`Attempts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `personId` mediumint(8) unsigned NOT NULL,
+  `personLinkId` mediumint(8) unsigned NOT NULL,
   `competitionId` mediumint(8) unsigned NOT NULL,
   `competitionDate` date NOT NULL,
   `eventId` tinyint(2) unsigned NOT NULL,
