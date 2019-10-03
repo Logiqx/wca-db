@@ -20,7 +20,7 @@ RUN jupyter nbconvert --to python ${PROJDIR}/python/*.ipynb && \
 COPY --chown=jovyan:users sql/*.sql ${PROJDIR}/sql/
 RUN chmod 644 ${PROJDIR}/sql/*.sql
 
-# Create final image from Python (Alpine) + MySQL client
+# Create final image from Python (Alpine)
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 RUN apk update && \
     apk add --no-cache mysql-client
