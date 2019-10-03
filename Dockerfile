@@ -33,7 +33,7 @@ ENV PROJDIR=/home/${NB_USER}/work/wca-db
 RUN addgroup -S ${NB_USER} && adduser -S ${NB_USER} -G ${NB_USER}
 USER ${NB_USER}
 
-# Copy project files - n.b. chown option does not support environment variables
+# Copy project files
 COPY --from=builder --chown=jovyan:jovyan ${PROJDIR}/ ${PROJDIR}/
 
 # Define the command / entrypoint
