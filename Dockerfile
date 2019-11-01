@@ -27,6 +27,9 @@ FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 RUN apk update && \
     apk add --no-cache mysql-client
 
+# Install AWS CLI
+RUN pip install --no-cache-dir awscli
+
 # Environment variables
 ENV NB_USER=jovyan
 ENV PROJDIR=/home/${NB_USER}/work/wca-db
