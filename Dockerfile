@@ -24,8 +24,7 @@ RUN chmod 644 ${PROJDIR}/sql/*.sql
 FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Install MySQL client
-RUN apk update && \
-    apk add --no-cache mysql-client
+RUN apk add --no-cache mysql-client
 
 # Install AWS CLI
 RUN pip install --no-cache-dir awscli
