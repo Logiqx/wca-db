@@ -20,8 +20,8 @@ RUN jupyter nbconvert --to python ${PROJDIR}/python/*.ipynb && \
 COPY --chown=jovyan:users sql/*.sql ${PROJDIR}/sql/
 RUN chmod 644 ${PROJDIR}/sql/*.sql
 
-# Create final image from Python (Alpine)
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+# Create final image from Python 3 + Beautiful Soup 4 on Alpine Linux
+FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Install MySQL client
 RUN apk update && \
@@ -35,8 +35,8 @@ ENV NB_USER=jovyan
 ENV PROJDIR=/home/${NB_USER}/work/wca-db
 
 # Create the notebook user and project structure
-RUN addgroup -S ${NB_USER} && \
-    adduser -S ${NB_USER} -G ${NB_USER}
+RUN addgroup -g 1000 -S ${NB_USER} && \
+    adduser -u 1000 -S ${NB_USER} -G ${NB_USER}
 USER ${NB_USER}
 
 # Copy project files
