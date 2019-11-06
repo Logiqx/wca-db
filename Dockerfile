@@ -13,9 +13,11 @@ COPY --chown=jovyan:users sql/*.sql ./sql/
 
 # Convert Jupyter notebooks to regular Python scripts
 RUN jupyter nbconvert --to python python/*.ipynb && \
-    chmod 755 python/*.py && \
-    chmod 644 sql/*.sql && \
     rm python/*.ipynb
+
+# Ensure project file permissions are correct
+RUN chmod 755 python/*.py && \
+    chmod 644 sql/*.sql
 
 # Create final image from Python 3 + Beautiful Soup 4 on Alpine Linux
 FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
