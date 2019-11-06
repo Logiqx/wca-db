@@ -8,7 +8,7 @@ FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
 
 # Copy the required project files
 WORKDIR /home/jovyan/work/wca-db
-COPY --chown=jovyan:users python/*.ipynb ./python/
+COPY --chown=jovyan:users python/*.*py* ./python/
 COPY --chown=jovyan:users sql/*.sql ./sql/
 
 # Convert Jupyter notebooks to regular Python scripts
