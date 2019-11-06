@@ -6,7 +6,6 @@ python/.ipynb_checkpoints
 python/__pycache__
 python/*.zip
 python/*.sql
-README.md
 sql/enhancement
 sql/exploration
 sql/wca_alt
