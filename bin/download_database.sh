@@ -1,8 +1,5 @@
-# Determine the container ID in a way that works with Docker Compose and Docker Swarm
-CONTAINER=$(docker ps -q -f name=wca_notebook)
+# --mount type=bind,src=/c/Projects/WCA/wca-db/data,dst=/home/jovyan/wca-db/data \
 
-# Location of Jupyter Notebooks
-PYTHON_DIR=work/wca-db/python
-
-# Run the download script
-time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --ExecutePreprocessor.timeout=900 --to notebook --execute --inplace Download_Database.ipynb"
+time docker run -it --rm \
+         --mount type=bind,src=/c/Projects/WCA/wca-db/docker/mysql/.my.cnf,dst=/home/jovyan/.my.cnf \
+         --network=wca_default -w /home/jovyan/work/wca-db/python wca-db ./Download_Database.py
