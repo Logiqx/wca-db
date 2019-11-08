@@ -15,6 +15,11 @@ services:
       - ${PROJECT_ROOT}:/home/jovyan/work
       - ./mysql/wca.cnf:/etc/mysql/conf.d/wca.cnf
       - mariadb:/var/lib/mysql
+    logging:
+      driver: "local"
+      options:
+        max-size: "10m"
+        max-file: "3"
   notebook:
     build:
       context: ./notebook
@@ -32,6 +37,11 @@ services:
       - ./mysql/.my.cnf:/home/jovyan/.my.cnf
     depends_on:
       - mariadb
+    logging:
+      driver: "local"
+      options:
+        max-size: "10m"
+        max-file: "3"
 secrets:
   mysql_password:
     file: ./mysql_password.txt
