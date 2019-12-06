@@ -22,9 +22,6 @@ RUN chmod 755 python/*.py && \
 # Create final image from Python 3 + Beautiful Soup 4 on Alpine Linux
 FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
-# Install MySQL client
-RUN apk add --no-cache mysql-client=~10.3
-
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
 ARG PY_USER=jovyan
 ARG PY_GROUP=jovyan
@@ -36,6 +33,9 @@ RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
     adduser -u ${PY_UID} --disabled-password ${PY_USER} -G ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
+
+# Install MySQL client
+RUN apk add --no-cache mysql-client=~10.3
 
 # Environment variables used by the Python scripts
 ENV MYSQL_HOSTNAME=mariadb

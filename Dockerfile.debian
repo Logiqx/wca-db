@@ -22,10 +22,6 @@ RUN chmod 755 python/*.py && \
 # Create final image from Python 3 (Debian Slim)
 FROM python:${PYTHON_VERSION}-slim-${DEBIAN_VERSION}
 
-# Install MySQL client
-RUN apt-get update && apt-get install -y --no-install-recommends mariadb-client-10.3 \
-    && rm -rf /var/lib/apt/lists/*
-
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
 ARG PY_USER=jovyan
 ARG PY_GROUP=jovyan
@@ -37,6 +33,10 @@ RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
     useradd -u ${PY_UID} ${PY_USER} -g ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
+
+# Install MySQL client
+RUN apt-get update && apt-get install -y --no-install-recommends mariadb-client-10.3 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Environment variables used by the Python scripts
 ENV MYSQL_HOSTNAME=mariadb
