@@ -34,14 +34,14 @@ RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
 
-# Install MySQL client
-RUN apt-get update && apt-get install -y --no-install-recommends mariadb-client-10.3 \
-    && rm -rf /var/lib/apt/lists/*
-
 # Environment variables used by the Python scripts
 ENV MYSQL_HOSTNAME=mariadb
 ENV MYSQL_DATABASE=wca
 ENV MYSQL_USER=wca
+
+# Install MySQL client
+RUN apt-get update && apt-get install -y --no-install-recommends mariadb-client-10.3 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy project files from the builder
 USER ${PY_USER}

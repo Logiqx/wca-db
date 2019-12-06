@@ -34,13 +34,13 @@ RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
 
-# Install MySQL client
-RUN apk add --no-cache mysql-client=~10.3
-
 # Environment variables used by the Python scripts
 ENV MYSQL_HOSTNAME=mariadb
 ENV MYSQL_DATABASE=wca
 ENV MYSQL_USER=wca
+
+# Install MySQL client
+RUN apk add --no-cache mysql-client=~10.3
 
 # Copy project files from the builder
 USER ${PY_USER}
