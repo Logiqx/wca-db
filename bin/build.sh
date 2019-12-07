@@ -1,2 +1,6 @@
-DOCKER_BUILDKIT=1 docker build . -t wca-db:$(git rev-parse --short=12 HEAD)
-docker tag wca-db:$(git rev-parse --short=12 HEAD) wca-db:latest
+. $(dirname $0)/env.sh
+
+cd $PROJ_DIR
+
+DOCKER_BUILDKIT=1 docker build . -t $PROJ_NAME:$(git rev-parse --short=12 HEAD)
+docker tag $PROJ_NAME:$(git rev-parse --short=12 HEAD) $PROJ_NAME:latest
