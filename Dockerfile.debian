@@ -39,11 +39,14 @@ ENV MYSQL_HOST=mariadb
 ENV MYSQL_DATABASE=wca
 ENV MYSQL_USER=wca
 
-# Install MySQL client
-RUN apt-get update && apt-get install -y --no-install-recommends mariadb-client-10.3 \
+# Install Tini + MySQL client
+RUN apt-get update && apt-get install -y --no-install-recommends tini=0.18.* mariadb-client-10.3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy project files from the builder
 USER ${PY_USER}
 WORKDIR /home/${PY_USER}/work/wca-db
 COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-db/ ./
+
+# Wait for CMD to exit, reap zombies and perform signal forwarding
+ENTRYPOINT ["/usr/bin/tini", "--"]

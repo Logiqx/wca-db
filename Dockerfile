@@ -39,10 +39,13 @@ ENV MYSQL_HOST=mariadb
 ENV MYSQL_DATABASE=wca
 ENV MYSQL_USER=wca
 
-# Install MySQL client
-RUN apk add --no-cache mysql-client=~10.3
+# Install Tini + MySQL client
+RUN apk add --no-cache tini=~0.18 mysql-client=~10.3
 
 # Copy project files from the builder
 USER ${PY_USER}
 WORKDIR /home/${PY_USER}/work/wca-db
 COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-db/ ./
+
+# Wait for CMD to exit, reap zombies and perform signal forwarding
+ENTRYPOINT ["/sbin/tini", "--"]
