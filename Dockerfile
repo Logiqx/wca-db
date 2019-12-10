@@ -49,3 +49,4 @@ COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-db/ ./
 
 # Wait for CMD to exit, reap zombies and perform signal forwarding
 ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["python"]
