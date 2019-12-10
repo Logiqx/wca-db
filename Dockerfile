@@ -44,5 +44,5 @@ RUN apk add --no-cache mysql-client=~10.3
 
 # Copy project files from the builder
 USER ${PY_USER}
-WORKDIR /home/${PY_USER}/work
-COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/ ./
+WORKDIR /home/${PY_USER}/work/wca-db
+COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-db/ ./
