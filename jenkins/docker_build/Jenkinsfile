@@ -42,11 +42,11 @@ pipeline {
         githubPush()
     }
     options {
-        lock resource: "DB"
+        lock resource: 'DB'
     }
     environment {
         GIT_REPO = 'https://github.com/Logiqx/wca-db.git'
-        IMAGE_NAME = "wca-db"
+        IMAGE_NAME = 'wca-db'
         USER_HOME = '/home/jovyan'
         MYSQL_DATABASE = 'wca_tst'
         MYSQL_USER = 'wca_tst'

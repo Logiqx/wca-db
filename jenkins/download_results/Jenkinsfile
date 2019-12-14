@@ -33,10 +33,10 @@ pipeline {
                  threshold: hudson.model.Result.SUCCESS)
     }
     options {
-        lock resource: "DB"
+        lock resource: 'DB'
     }
     environment {
-        IMAGE_NAME = "wca-db"
+        IMAGE_NAME = 'wca-db'
         USER_HOME = '/home/jovyan'
         MYSQL_DATABASE = 'wca'
         MYSQL_USER = 'wca'
