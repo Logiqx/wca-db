@@ -12,3 +12,5 @@ run_py_script()
          --mount type=bind,src=$(realpath $PROJ_DIR/docker/mysql/.my.cnf),dst=/home/jovyan/.my.cnf \
          --network=wca_default -w $WORK_DIR/python $IMAGE_NAME:$IMAGE_TAG ./$1
 }
+
+cd $PROJ_DIR

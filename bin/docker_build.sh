@@ -1,8 +1,8 @@
-set -ex
-
 # Project Env
 . $(dirname $0)/env.sh
-cd $PROJ_DIR
+
+# Explanation at https://www.peterbe.com/plog/set-ex
+set -ex
 
 # Determine Tag
 IMAGE_NAME=$PROJ_NAME
