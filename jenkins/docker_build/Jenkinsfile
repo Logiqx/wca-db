@@ -57,6 +57,11 @@ pipeline {
                 git url: "${GIT_REPO}"
             }
         }
+        stage('Git Status') {
+            steps {
+                setBuildStatus("Build started", "PENDING")
+            }
+        }
         stage('Determine Tag') {
             environment {
                 IMAGE_TAG = sh(script: 'git rev-parse --short=12 HEAD',
@@ -75,7 +80,7 @@ pipeline {
                 }
                 stage('Download Database') {
                     steps {
-                        runPyScript('Download_Database.py')
+                        runPyScript('Download_Results.py')
                     }
                 }
                 stage('Docker Tag') {

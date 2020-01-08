@@ -49,7 +49,7 @@ pipeline {
         }
         stage('Download Database') {
             steps {
-                runPyScript('Download_Database.py')
+                runPyScript('Download_Results.py')
             }
         }
     }
