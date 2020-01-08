@@ -1,3 +1,3 @@
 . $(dirname $0)/env.sh
 
-time run_py_script Download_Database.py
+time run_py_script Download_Results.py
