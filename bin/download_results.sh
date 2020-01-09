@@ -2,4 +2,4 @@
 . $(dirname $0)/env.sh
 
 # Download Database
-time run_py_script Download_Results.py
+run_py_script Download_Results.py

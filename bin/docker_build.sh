@@ -13,7 +13,7 @@ MYSQL_DATABASE=wca_tst
 MYSQL_USER=wca_tst
 
 # Download Database
-time run_py_script Download_Results.py
+run_py_script Download_Results.py
 
 # Docker Tag
 docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
