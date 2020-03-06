@@ -19,7 +19,7 @@ RUN jupyter nbconvert --to python python/*.ipynb && \
 RUN chmod 755 python/*.py && \
     chmod 644 sql/*.sql
 
-# Create final image from Python 3 (Debian Slim)
+# Create final image from Python 3
 FROM python:${PYTHON_VERSION}-slim-${DEBIAN_VERSION}
 
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter

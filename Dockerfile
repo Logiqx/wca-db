@@ -1,7 +1,7 @@
 # Base image versions
 ARG NOTEBOOK_VERSION=c39518a3252f
 ARG PYTHON_VERSION=3.8
-ARG ALPINE_VERSION=3.10
+ARG ALPINE_VERSION=3.11
 
 # Jupyter notebook image is used as the builder
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
@@ -19,8 +19,8 @@ RUN jupyter nbconvert --to python python/*.ipynb && \
 RUN chmod 755 python/*.py && \
     chmod 644 sql/*.sql
 
-# Create final image from Python 3 + Beautiful Soup 4 on Alpine Linux
-FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+# Create final image from Python 3
+FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
 ARG PY_USER=jovyan
@@ -35,7 +35,7 @@ RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
     chown -R ${PY_USER} /home/${PY_USER}
 
 # Install Tini + MySQL client
-RUN apk add --no-cache tini=~0.18 mysql-client=~10.3
+RUN apk add --no-cache tini=~0.18 mysql-client=~10.4
 
 # Environment variables used by the Python scripts
 ENV MYSQL_HOST=mariadb
