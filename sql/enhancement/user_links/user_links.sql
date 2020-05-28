@@ -229,6 +229,8 @@ UPDATE wca_dev.user_links
 SET user_status = 'Non-existent'
 WHERE user_status IS NULL;
 
+ALTER TABLE wca_dev.user_links ADD INDEX user_links_user_id (user_id);
+
 /*
     Summarise the links
 */
