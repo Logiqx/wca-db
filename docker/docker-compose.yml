@@ -2,7 +2,7 @@ version: '3.1'
 services:
   mariadb:
     image: mariadb:${MARIADB_VERSION:-latest}
-    restart: always
+    restart: no
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
@@ -27,7 +27,7 @@ services:
       args:
         NOTEBOOK_VERSION: ${NOTEBOOK_VERSION}
     image: ${COMPOSE_PROJECT_NAME:-wca}_notebook:${PROJECT_NOTEBOOK_VERSION:-latest}-${NOTEBOOK_VERSION:-latest}
-    restart: always
+    restart: no
     environment:
       MYSQL_HOST: mariadb
       MYSQL_DATABASE: ${MYSQL_DATABASE}
