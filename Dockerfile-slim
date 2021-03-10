@@ -1,6 +1,6 @@
 # Base image versions
-ARG NOTEBOOK_VERSION=c39518a3252f
-ARG PYTHON_VERSION=3.8
+ARG NOTEBOOK_VERSION=notebook-6.2.0
+ARG PYTHON_VERSION=3.9
 ARG DEBIAN_VERSION=buster
 
 # Jupyter notebook image is used as the builder
@@ -35,7 +35,9 @@ RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
     chown -R ${PY_USER} /home/${PY_USER}
 
 # Install Tini + MySQL client
-RUN apt-get update && apt-get install -y --no-install-recommends tini=0.18.* mariadb-client-10.3 \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    mariadb-client-10.3 \
+    tini=0.18.* \
     && rm -rf /var/lib/apt/lists/*
 
 # Environment variables used by the Python scripts

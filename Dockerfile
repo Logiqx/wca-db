@@ -1,7 +1,7 @@
 # Base image versions
-ARG NOTEBOOK_VERSION=c39518a3252f
-ARG PYTHON_VERSION=3.8
-ARG ALPINE_VERSION=3.11
+ARG NOTEBOOK_VERSION=notebook-6.2.0
+ARG PYTHON_VERSION=3.9
+ARG ALPINE_VERSION=3.12
 
 # Jupyter notebook image is used as the builder
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
@@ -35,7 +35,9 @@ RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
     chown -R ${PY_USER} /home/${PY_USER}
 
 # Install Tini + MySQL client
-RUN apk add --no-cache tini=~0.18 mysql-client=~10.4
+RUN apk add --no-cache \
+    mysql-client=~10.4 \
+    tini=~0.19
 
 # Environment variables used by the Python scripts
 ENV MYSQL_HOST=mariadb
