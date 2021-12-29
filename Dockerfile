@@ -1,7 +1,7 @@
 # Base image versions
 ARG NOTEBOOK_VERSION=notebook-6.2.0
-ARG PYTHON_VERSION=3.9
-ARG ALPINE_VERSION=3.12
+ARG PYTHON_VERSION=3.10
+ARG ALPINE_VERSION=3.15
 
 # Jupyter notebook image is used as the builder
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
@@ -19,7 +19,7 @@ RUN jupyter nbconvert --to python python/*.ipynb && \
 RUN chmod 755 python/*.py && \
     chmod 644 sql/*.sql
 
-# Create final image from Python 3
+# Create final image from Python 3 (Alpine Linux)
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
@@ -36,7 +36,7 @@ RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
 
 # Install Tini + MySQL client
 RUN apk add --no-cache \
-    mysql-client=~10.4 \
+    mysql-client=~10.6 \
     tini=~0.19
 
 # Environment variables used by the Python scripts
