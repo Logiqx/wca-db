@@ -6,7 +6,7 @@ IMAGE_NAME=$PROJ_NAME
 IMAGE_TAG=$(git rev-parse --short=12 HEAD)
 
 # Docker Build
-DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:$IMAGE_TAG
+DOCKER_BUILDKIT=1 docker build . -f Dockerfile -t $IMAGE_NAME:$IMAGE_TAG
 
 # Test database
 MYSQL_DATABASE=wca_tst
