@@ -28,7 +28,7 @@ def runPyScript(pyScript) {
 pipeline {
     agent any
     triggers {
-        cron('10 4 * * *')
+        cron('0 2 * * *')
         upstream(upstreamProjects: "wca-db-docker-build", 
                  threshold: hudson.model.Result.SUCCESS)
     }
