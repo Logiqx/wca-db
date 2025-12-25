@@ -7,20 +7,14 @@
 */
 
 -- Add primary keys (i.e. store physical records in a clustered index, sorted by the PK)
-ALTER TABLE Competitions ADD PRIMARY KEY(id);
-ALTER TABLE Continents ADD PRIMARY KEY(id);
-ALTER TABLE Countries ADD PRIMARY KEY(id);
-ALTER TABLE Events ADD PRIMARY KEY(id);
-ALTER TABLE Formats ADD PRIMARY KEY(id);
-ALTER TABLE Persons ADD PRIMARY KEY(id, subid);
-ALTER TABLE RoundTypes ADD PRIMARY KEY(id);
+ALTER TABLE persons ADD PRIMARY KEY(wca_id, sub_id);
 
 -- Create unique indices
-CREATE UNIQUE INDEX RanksAverage_eventId_personId ON RanksAverage (eventId, personId);
-CREATE UNIQUE INDEX RanksAverage_personId_eventId ON RanksAverage (personId, eventId);
-CREATE UNIQUE INDEX RanksSingle_eventId_personId ON RanksSingle (eventId, personId);
-CREATE UNIQUE INDEX RanksSingle_personId_eventId ON RanksSingle (personId, eventId);
+CREATE UNIQUE INDEX ranks_average_event_id_person_id ON ranks_average (event_id, person_id);
+CREATE UNIQUE INDEX ranks_average_person_id_event_id ON ranks_average (person_id, event_id);
+CREATE UNIQUE INDEX ranks_single_event_id_person_id ON ranks_single (event_id, person_id);
+CREATE UNIQUE INDEX ranks_single_person_id_event_id ON ranks_single (person_id, event_id);
 
 -- Create non-unique indices
-CREATE INDEX Results_eventId_personId ON Results (eventId, personId);
-CREATE INDEX Results_personId_eventId ON Results (personId, eventId);
+CREATE INDEX results_event_id_person_id ON results (event_id, person_id);
+CREATE INDEX results_person_id_event_id ON results (person_id, event_id);

@@ -7,7 +7,7 @@
 */
 
 -- Add columns as per the non-public WCA database
-ALTER TABLE Persons
+ALTER TABLE persons
 ADD COLUMN
 (
     `year` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0,
