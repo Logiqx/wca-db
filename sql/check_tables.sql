@@ -45,7 +45,7 @@ WITH stats AS
 	WHERE table_schema IN ('wca', 'wca_alt')
 	AND engine = 'InnoDB'
 )
-SELECT *, ROUND(100.0 * s1.size_in_mb / s2.size_in_mb, 2) AS pctSize
+SELECT *, ROUND(100.0 * s1.size_in_mb / s2.size_in_mb, 2) AS pct_size
 FROM stats s1
 LEFT JOIN stats s2 ON s2.table_name = s1.table_name AND s2.table_schema = 'wca'
 WHERE s1.table_schema = 'wca_alt'
@@ -63,7 +63,7 @@ WITH stats AS
 	AND stat_name = 'size'
 	GROUP BY database_name, table_name
 )
-SELECT *, ROUND(100.0 * s1.size_in_mb / s2.size_in_mb, 2) AS pctSize
+SELECT *, ROUND(100.0 * s1.size_in_mb / s2.size_in_mb, 2) AS pct_size
 FROM stats s1
 LEFT JOIN stats s2 ON s2.table_name = s1.table_name AND s2.table_schema = 'wca'
 WHERE s1.table_schema = 'wca_alt'
