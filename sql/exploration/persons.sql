@@ -8,24 +8,24 @@
 
 -- IMPORTANT: List duplicate entries in the persons table - none
 SELECT p1.*, p2.*
-FROM Persons p1
-JOIN Persons p2 ON p2.id = p1.id AND p2.subid != p1.subid AND p2.name = p1.name AND p2.countryId = p1.countryId;
+FROM wca.persons p1
+JOIN wca.persons p2 ON p2.wca_id = p1.wca_id AND p2.sub_id != p1.sub_id AND p2.name = p1.name AND p2.country_id = p1.country_id;
 
 -- List records in the persons table which include multiple changes
-WITH MultiPersons AS
+WITH multi_persons AS
 (
-	SELECT id
-	FROM wca.Persons
-	GROUP BY id
+	SELECT wca_id
+	FROM wca.persons
+	GROUP BY wca_id
 	HAVING COUNT(*) > 1
 )
-SELECT p.id, MAX(subid) AS maxSubid,
-	COUNT(DISTINCT name) - 1 AS numNameChanges,
-    COUNT(DISTINCT countryId) - 1 AS numCountryChanges,
-    COUNT(DISTINCT gender) - 1 AS numGenderChanges,
-    COUNT(DISTINCT name) + COUNT(DISTINCT countryId) + COUNT(DISTINCT gender) - 3 AS numChanges
-FROM Persons p
-JOIN MultiPersons m ON m.id = p.id
-GROUP BY p.id
-HAVING numChanges > 1
-ORDER BY p.id;
+SELECT p.wca_id, MAX(sub_id) AS max_sub_id,
+	COUNT(DISTINCT name) - 1 AS num_name_changes,
+    COUNT(DISTINCT country_id) - 1 AS num_country_changes,
+    COUNT(DISTINCT gender) - 1 AS num_gender_changes,
+    COUNT(DISTINCT name) + COUNT(DISTINCT country_id) + COUNT(DISTINCT gender) - 3 AS num_changes
+FROM wca.persons p
+JOIN multi_persons m ON m.wca_id = p.wca_id
+GROUP BY p.wca_id
+HAVING num_changes > 1
+ORDER BY p.wca_id;

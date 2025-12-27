@@ -37,15 +37,15 @@ WHERE name != id;
   Korea	1664
   USA	23536
 */
-SELECT countryId, COUNT(*)
+SELECT country_id, COUNT(*)
 FROM Persons
-WHERE countryId IN
+WHERE country_id IN
 (
 	SELECT id
 	FROM  Countries
 	WHERE name != id
 )
-GROUP BY countryId;
+GROUP BY country_id;
 
 /*
   How many results are affected?
@@ -54,12 +54,12 @@ GROUP BY countryId;
   Korea	20630
   USA	388528
 */
-SELECT personCountryId, COUNT(*)
+SELECT person_country_id, COUNT(*)
 FROM Results
-WHERE personCountryId IN
+WHERE person_country_id IN
 (
 	SELECT id
 	FROM  Countries
 	WHERE name != id
 )
-GROUP BY personCountryId;
+GROUP BY person_country_id;

@@ -6,8 +6,8 @@
     Purpose:  Basic exploration of the database to understand exceptions, etc.
 */
 
--- How long is groupId?
-SELECT groupId, COUNT(*)
+-- How long is group_id?
+SELECT group_id, COUNT(*)
 FROM Scrambles
-GROUP BY groupId
-ORDER BY LENGTH(groupId) DESC;
+GROUP BY group_id
+ORDER BY LENGTH(group_id) DESC;
