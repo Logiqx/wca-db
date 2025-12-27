@@ -40,10 +40,10 @@ AND NOT EXISTS
 ALTER TABLE registration_users ADD PRIMARY KEY (competition_id, name);
 
 -- Join results back to registrations - takes about 7 seconds (warm)
-SELECT user_id, name, GROUP_CONCAT(DISTINCT countryId) AS country_ids, GROUP_CONCAT(DISTINCT personId) AS result_ids
+SELECT user_id, name, GROUP_CONCAT(DISTINCT country_id) AS country_ids, GROUP_CONCAT(DISTINCT person_id) AS result_ids
 FROM
 (
-  SELECT personName, competitionId, countryId, personId
+  SELECT person_name, competition_id, country_id, person_id
   FROM
   (
     SELECT DISTINCT id
@@ -56,11 +56,11 @@ FROM
       HAVING COUNT(DISTINCT id) > 1
     )
   ) AS d
-  JOIN Results AS r ON r.personId = d.id
-  GROUP BY personName, competitionId
-  HAVING COUNT(DISTINCT personId) = 1
+  JOIN Results AS r ON r.person_id = d.id
+  GROUP BY person_name, competition_id
+  HAVING COUNT(DISTINCT person_id) = 1
 ) AS r
-JOIN registration_users u ON u.competition_id = r.competitionId AND u.name = r.personName
+JOIN registration_users u ON u.competition_id = r.competition_id AND u.name = r.person_name
 GROUP BY user_id
-HAVING COUNT(DISTINCT personId) > 1
+HAVING COUNT(DISTINCT person_id) > 1
 ORDER BY country_ids, name;

@@ -43,9 +43,9 @@ CREATE TABLE wca_dev.user_links (
 
 -- Simple join of WCA profiles with confirmed user accounts ~3s
 INSERT INTO wca_dev.user_links (wca_id, name, country_id, country_iso2, gender, user_status, user_id, confirmed_id)
-SELECT p.id AS wca_id, p.name, p.countryId, c.iso2, IFNULL(p.gender, ''), IF(u.id, 'Confirmed', NULL) AS user_status, u.id AS user_id, u.id AS confirmed_id
+SELECT p.id AS wca_id, p.name, p.country_id, c.iso2, IFNULL(p.gender, ''), IF(u.id, 'Confirmed', NULL) AS user_status, u.id AS user_id, u.id AS confirmed_id
 FROM Persons AS p
-JOIN Countries AS c ON c.id = p.countryId
+JOIN Countries AS c ON c.id = p.country_id
 LEFT JOIN wca_dev.users AS u ON u.wca_id = p.id
 WHERE subid = 1; -- latest name + country
 
@@ -92,10 +92,10 @@ ALTER TABLE registration_users ADD PRIMARY KEY (competition_id, name);
 UPDATE wca_dev.user_links AS l
 JOIN
 (
-	SELECT personId AS wca_id, MAX(user_id) AS user_id, GROUP_CONCAT(DISTINCT user_id) AS registration_ids
+	SELECT person_id AS wca_id, MAX(user_id) AS user_id, GROUP_CONCAT(DISTINCT user_id) AS registration_ids
 	FROM Results r
-	JOIN registration_users u ON u.competition_id = r.competitionId AND u.name = r.personName
-    GROUP BY personId
+	JOIN registration_users u ON u.competition_id = r.competition_id AND u.name = r.person_name
+    GROUP BY person_id
 ) AS r ON r.wca_id = l.wca_id
 SET l.user_status = COALESCE(l.user_status, 'Registered'), l.user_id = COALESCE(l.user_id, r.user_id), l.registration_ids = r.registration_ids;
 
@@ -130,7 +130,7 @@ DROP TEMPORARY TABLE IF EXISTS duplicate_names;
 
 -- Create temporary table containing the people from the same country with the same name ~5s
 CREATE TEMPORARY TABLE duplicate_names AS
-SELECT p.name, p.countryId AS country_id
+SELECT p.name, p.country_id AS country_id
 FROM Persons p
 GROUP BY name, country_id
 HAVING COUNT(DISTINCT id) > 1;
