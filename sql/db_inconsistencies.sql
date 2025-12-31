@@ -34,8 +34,8 @@ AND column_name = 'wca_id'
 ORDER BY TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME;
 
 -- Check which tables have `day`, `month`, `year` columns - PROPOSE concise results, competitions and persons use proper date fields
---   2 tables in results export / 2 tables in developer export
---     competitions, persons / concise_average_results, concise_single_results
+--   1 table in results export / 2 tables in developer export
+--     competitions / concise_average_results, concise_single_results
 SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT
 FROM INFORMATION_SCHEMA.COLUMNS AS c1
 WHERE table_schema LIKE 'wca%'

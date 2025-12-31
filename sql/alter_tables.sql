@@ -1,16 +1,27 @@
 /* 
-    Script:   Alter Persons Table
+    Script:   Alter Tables
     Created:  2019-02-19
     Author:   Michael George / 2015GEOR02
    
-    Purpose:  Add YMD and username columns to the "Persons" table
+    Purpose:  Add columns to the "persons" and "competitions" tables
 */
 
--- Add columns as per the non-public WCA database
+-- Add date of birth (DOB) column to the "persons" table
 ALTER TABLE persons
 ADD COLUMN
 (
-    `year` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0,
-    `month` TINYINT(5) UNSIGNED NOT NULL DEFAULT 0,
-    `day` TINYINT(5) UNSIGNED NOT NULL DEFAULT 0
+    `dob` date
 );
+
+-- Add date columns to the "competitions" table
+ALTER TABLE competitions
+ADD COLUMN
+(
+    `start_date` date,
+    `end_date` date
+);
+
+-- Populate dates in the "competitions" table
+UPDATE competitions
+SET start_date = STR_TO_DATE(CONCAT(year, '-', month, '-', day), '%Y-%m-%d'),
+    end_date = STR_TO_DATE(CONCAT(end_year, '-', end_month, '-', end_day), '%Y-%m-%d');
