@@ -44,8 +44,8 @@ ORDER BY TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME;
 
 -- Compare tables in results export against developer export - PROPOSE competitions and persons use proper date fields
 --   2 tables in results export have columns that are not in the developer export
---     competitions.*, persons.*, results.person_country_id
-SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT
+--     competitions.*, results.person_country_id
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT
 FROM INFORMATION_SCHEMA.COLUMNS AS c1
 WHERE table_schema = 'wca'
 AND NOT EXISTS
@@ -56,4 +56,4 @@ AND NOT EXISTS
     AND c2.table_name = c1.table_name
     AND c2.column_name = c1.column_name
 )
-ORDER BY TABLE_NAME, COLUMN_NAME;
+ORDER BY TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME;
