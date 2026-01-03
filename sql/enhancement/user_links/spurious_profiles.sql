@@ -47,16 +47,16 @@ FROM
   FROM
   (
     SELECT DISTINCT id
-    FROM Persons
+    FROM persons
     WHERE name IN
     (
       SELECT name
-      FROM Persons
+      FROM persons
       GROUP BY name
       HAVING COUNT(DISTINCT id) > 1
     )
   ) AS d
-  JOIN Results AS r ON r.person_id = d.id
+  JOIN results AS r ON r.person_id = d.id
   GROUP BY person_name, competition_id
   HAVING COUNT(DISTINCT person_id) = 1
 ) AS r

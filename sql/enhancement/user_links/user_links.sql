@@ -44,8 +44,8 @@ CREATE TABLE wca_dev.user_links (
 -- Simple join of WCA profiles with confirmed user accounts ~3s
 INSERT INTO wca_dev.user_links (wca_id, name, country_id, country_iso2, gender, user_status, user_id, confirmed_id)
 SELECT p.id AS wca_id, p.name, p.country_id, c.iso2, IFNULL(p.gender, ''), IF(u.id, 'Confirmed', NULL) AS user_status, u.id AS user_id, u.id AS confirmed_id
-FROM Persons AS p
-JOIN Countries AS c ON c.id = p.country_id
+FROM persons AS p
+JOIN countries AS c ON c.id = p.country_id
 LEFT JOIN wca_dev.users AS u ON u.wca_id = p.id
 WHERE subid = 1; -- latest name + country
 
@@ -93,7 +93,7 @@ UPDATE wca_dev.user_links AS l
 JOIN
 (
 	SELECT person_id AS wca_id, MAX(user_id) AS user_id, GROUP_CONCAT(DISTINCT user_id) AS registration_ids
-	FROM Results r
+	FROM results r
 	JOIN registration_users u ON u.competition_id = r.competition_id AND u.name = r.person_name
     GROUP BY person_id
 ) AS r ON r.wca_id = l.wca_id
@@ -131,7 +131,7 @@ DROP TEMPORARY TABLE IF EXISTS duplicate_names;
 -- Create temporary table containing the people from the same country with the same name ~5s
 CREATE TEMPORARY TABLE duplicate_names AS
 SELECT p.name, p.country_id AS country_id
-FROM Persons p
+FROM persons p
 GROUP BY name, country_id
 HAVING COUNT(DISTINCT id) > 1;
 
@@ -172,7 +172,7 @@ DROP TEMPORARY TABLE IF EXISTS duplicate_names;
 -- Create temporary table containing the people worldwide with the same name ~3s
 CREATE TEMPORARY TABLE duplicate_names AS
 SELECT p.name
-FROM Persons p
+FROM persons p
 GROUP BY name
 HAVING COUNT(DISTINCT id) > 1;
 
