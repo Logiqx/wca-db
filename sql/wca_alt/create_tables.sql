@@ -7,18 +7,18 @@
 */
 
 /* --------------------
-    Events
+    events
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Events`;
+DROP TABLE IF EXISTS `wca_alt`.`events`;
 
-CREATE TABLE `wca_alt`.`Events` (
+CREATE TABLE `wca_alt`.`events` (
   `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
-  `legacyId` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `legacy_id` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rank` smallint(3) unsigned NOT NULL,
   `format` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cellName` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cell_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -27,9 +27,9 @@ CREATE TABLE `wca_alt`.`Events` (
     Formats
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Formats`;
+DROP TABLE IF EXISTS `wca_alt`.`formats`;
 
-CREATE TABLE `wca_alt`.`Formats` (
+CREATE TABLE `wca_alt`.`formats` (
   `id` tinyint(1) unsigned NOT NULL AUTO_INCREMENT,
   `code` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -43,17 +43,17 @@ CREATE TABLE `wca_alt`.`Formats` (
 
 
 /* --------------------
-    RoundTypes
+    round_types
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`RoundTypes`;
+DROP TABLE IF EXISTS `wca_alt`.`round_types`;
 
-CREATE TABLE `wca_alt`.`RoundTypes` (
+CREATE TABLE `wca_alt`.`round_types` (
   `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
   `code` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rank` tinyint(3) unsigned NOT NULL,
   `name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cellName` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cell_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `final` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -63,13 +63,13 @@ CREATE TABLE `wca_alt`.`RoundTypes` (
     Continents
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Continents`;
+DROP TABLE IF EXISTS `wca_alt`.`continents`;
 
-CREATE TABLE `wca_alt`.`Continents` (
+CREATE TABLE `wca_alt`.`continents` (
   `id` tinyint(1) unsigned NOT NULL AUTO_INCREMENT,
-  `legacyId` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `legacy_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `recordName` char(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `record_name` char(3) COLLATE utf8mb4_unicode_ci NOT NULL,
   `latitude` int(11) NOT NULL,
   `longitude` int(11) NOT NULL,
   `zoom` tinyint(1) unsigned NOT NULL,
@@ -81,51 +81,51 @@ CREATE TABLE `wca_alt`.`Continents` (
     Countries
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Countries`;
+DROP TABLE IF EXISTS `wca_alt`.`countries`;
 
-CREATE TABLE `wca_alt`.`Countries` (
+CREATE TABLE `wca_alt`.`countries` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `continentId` tinyint(1) unsigned NOT NULL,
-  `legacyId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `continent_id` tinyint(1) unsigned NOT NULL,
+  `legacy_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `continentName` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `continent_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `iso2` char(2) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 /* --------------------
-    Competitions
+    competitions
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Competitions`;
+DROP TABLE IF EXISTS `wca_alt`.`competitions`;
 
-CREATE TABLE `wca_alt`.`Competitions` (
+CREATE TABLE `wca_alt`.`competitions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `countryId` tinyint(3) unsigned NOT NULL,
-  `continentId` tinyint(1) unsigned NOT NULL,
-  `legacyId` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_id` tinyint(3) unsigned NOT NULL,
+  `continent_id` tinyint(1) unsigned NOT NULL,
+  `legacy_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cityName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `countryName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `continentName` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `continent_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `information` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `year` smallint(4) unsigned NOT NULL,
   `month` tinyint(2) unsigned NOT NULL,
   `day` tinyint(2) unsigned NOT NULL,
-  `endYear` smallint(4) unsigned NOT NULL,
-  `endMonth` tinyint(2) unsigned NOT NULL,
-  `endDay` tinyint(2) unsigned NOT NULL,
+  `end_year` smallint(4) unsigned NOT NULL,
+  `end_month` tinyint(2) unsigned NOT NULL,
+  `end_day` tinyint(2) unsigned NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `eventSpecs` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `wcaDelegate` text COLLATE utf8mb4_unicode_ci NOT NULL, 
+  `event_specs` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `wca_delegate` text COLLATE utf8mb4_unicode_ci NOT NULL, 
   `organiser` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `venue` varchar(240) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `venueAddress` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `venueDetails` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `venue_address` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `venue_details` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
   `external_website` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cellName` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cell_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `latitude` int(11) NOT NULL,
   `longitude` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -136,42 +136,42 @@ CREATE TABLE `wca_alt`.`Competitions` (
     Scrambles
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Scrambles`;
+DROP TABLE IF EXISTS `wca_alt`.`scrambles`;
 
-CREATE TABLE `wca_alt`.`Scrambles` (
+CREATE TABLE `wca_alt`.`scrambles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `legacyId` int(10) unsigned NOT NULL,
-  `competitionId` mediumint(8) unsigned NOT NULL,
-  `competitionCountryId` tinyint(3) unsigned NOT NULL,
-  `competitionContinentId` tinyint(1) unsigned NOT NULL,
-  `eventId` tinyint(2) unsigned NOT NULL,
-  `roundTypeId` tinyint(2) unsigned NOT NULL,
-  `roundTypeCode` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roundTypeFinal` tinyint(1) NOT NULL,
-  `groupId` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `isExtra` tinyint(1) NOT NULL,
-  `scrambleNum` int(11) NOT NULL,
+  `legacy_id` int(10) unsigned NOT NULL,
+  `competition_id` mediumint(8) unsigned NOT NULL,
+  `competition_country_id` tinyint(3) unsigned NOT NULL,
+  `competition_continent_id` tinyint(1) unsigned NOT NULL,
+  `event_id` tinyint(2) unsigned NOT NULL,
+  `round_type_id` tinyint(2) unsigned NOT NULL,
+  `round_type_code` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `round_type_final` tinyint(1) NOT NULL,
+  `group.wca_id` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_extra` tinyint(1) NOT NULL,
+  `scramble_num` int(11) NOT NULL,
   `scramble` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 
 
 /* --------------------
-    Persons
+    persons
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Persons`;
+DROP TABLE IF EXISTS `wca_alt`.`persons`;
 
-CREATE TABLE `wca_alt`.`Persons` (
+CREATE TABLE `wca_alt`.`persons` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `linkId` mediumint(8) unsigned NOT NULL DEFAULT 0,
-  `wcaId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subid` tinyint(3) unsigned NOT NULL,
-  `countryId` tinyint(3) unsigned NOT NULL,
-  `continentId` tinyint(1) unsigned NOT NULL,
+  `link_id` mediumint(8) unsigned NOT NULL DEFAULT 0,
+  `wca_id` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sub_id` tinyint(3) unsigned NOT NULL,
+  `country_id` tinyint(3) unsigned NOT NULL,
+  `continent_id` tinyint(1) unsigned NOT NULL,
   `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `countryName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `continentName` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `continent_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `gender` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
   `year` smallint(4) unsigned NOT NULL DEFAULT '0',
   `month` tinyint(2) unsigned NOT NULL DEFAULT '0',
@@ -181,67 +181,67 @@ CREATE TABLE `wca_alt`.`Persons` (
 
 
 /* --------------------
-    RanksSingle
+    ranks_single
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`RanksSingle`;
+DROP TABLE IF EXISTS `wca_alt`.`ranks_single`;
 
-CREATE TABLE `wca_alt`.`RanksSingle` (
+CREATE TABLE `wca_alt`.`ranks_single` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `personId` mediumint(8) unsigned NOT NULL,
-  `countryId` tinyint(3) unsigned NOT NULL,
-  `continentId` tinyint(1) unsigned NOT NULL,
-  `eventId` tinyint(2) unsigned NOT NULL,
+  `person_id` mediumint(8) unsigned NOT NULL,
+  `country_id` tinyint(3) unsigned NOT NULL,
+  `continent_id` tinyint(1) unsigned NOT NULL,
+  `event_id` tinyint(2) unsigned NOT NULL,
   `best` int(11) NOT NULL,
-  `worldRank` mediumint(8) unsigned NOT NULL,
-  `continentRank` mediumint(8) unsigned NOT NULL,
-  `countryRank` mediumint(8) unsigned NOT NULL,
+  `world_rank` mediumint(8) unsigned NOT NULL,
+  `continent_rank` mediumint(8) unsigned NOT NULL,
+  `country_rank` mediumint(8) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 
 
 /* --------------------
-    RanksAverage
+    ranks_average
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`RanksAverage`;
+DROP TABLE IF EXISTS `wca_alt`.`ranks_average`;
 
-CREATE TABLE `wca_alt`.`RanksAverage` (
+CREATE TABLE `wca_alt`.`ranks_average` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `personId` mediumint(8) unsigned NOT NULL,
-  `countryId` tinyint(3) unsigned NOT NULL,
-  `continentId` tinyint(1) unsigned NOT NULL,
-  `eventId` tinyint(2) unsigned NOT NULL,
+  `person_id` mediumint(8) unsigned NOT NULL,
+  `country_id` tinyint(3) unsigned NOT NULL,
+  `continent_id` tinyint(1) unsigned NOT NULL,
+  `event_id` tinyint(2) unsigned NOT NULL,
   `best` int(11) NOT NULL,
-  `worldRank` mediumint(8) unsigned NOT NULL,
-  `continentRank` mediumint(8) unsigned NOT NULL,
-  `countryRank` mediumint(8) unsigned NOT NULL,
+  `world_rank` mediumint(8) unsigned NOT NULL,
+  `continent_rank` mediumint(8) unsigned NOT NULL,
+  `country_rank` mediumint(8) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 
 
 /* --------------------
-    Results
+    results
    -------------------- */
 
-DROP TABLE IF EXISTS `wca_alt`.`Results`;
+DROP TABLE IF EXISTS `wca_alt`.`results`;
 
-CREATE TABLE `wca_alt`.`Results` (
+CREATE TABLE `wca_alt`.`results` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `personId` mediumint(8) unsigned NOT NULL,
-  `personLinkId` mediumint(8) unsigned NOT NULL,
-  `personCountryId` tinyint(3) unsigned NOT NULL,
-  `personContinentId` tinyint(1) unsigned NOT NULL,
-  `competitionId` mediumint(8) unsigned NOT NULL,
-  `competitionCountryId` tinyint(3) unsigned NOT NULL,
-  `competitionContinentId` tinyint(1) unsigned NOT NULL,
-  `competitionDate` date NOT NULL,
-  `eventId` tinyint(2) unsigned NOT NULL,
-  `roundTypeId` tinyint(2) unsigned NOT NULL,
-  `roundTypeCode` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roundTypeFinal` tinyint(1) unsigned NOT NULL,
-  `formatId` tinyint(1) unsigned NOT NULL,
-  `formatCode` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `person_id` mediumint(8) unsigned NOT NULL,
+  `person_link_id` mediumint(8) unsigned NOT NULL,
+  `person_country_id` tinyint(3) unsigned NOT NULL,
+  `person_continent_id` tinyint(1) unsigned NOT NULL,
+  `competition_id` mediumint(8) unsigned NOT NULL,
+  `competition_country_id` tinyint(3) unsigned NOT NULL,
+  `competition_continent_id` tinyint(1) unsigned NOT NULL,
+  `competition_date` date NOT NULL,
+  `event_id` tinyint(2) unsigned NOT NULL,
+  `round_type_id` tinyint(2) unsigned NOT NULL,
+  `round_type_code` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `round_type_final` tinyint(1) unsigned NOT NULL,
+  `format_id` tinyint(1) unsigned NOT NULL,
+  `format_code` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pos` smallint(5) unsigned NOT NULL,
   `best` int(11) NOT NULL,
   `average` int(11) NOT NULL,
@@ -250,8 +250,8 @@ CREATE TABLE `wca_alt`.`Results` (
   `value3` int(11) NOT NULL,
   `value4` int(11) NOT NULL,
   `value5` int(11) NOT NULL,
-  `regionalSingleRecord` char(3) COLLATE utf8mb4_unicode_ci,
-  `regionalAverageRecord` char(3) COLLATE utf8mb4_unicode_ci,
+  `regional_single_record` char(3) COLLATE utf8mb4_unicode_ci,
+  `regional_average_record` char(3) COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 
@@ -264,24 +264,24 @@ DROP TABLE IF EXISTS `wca_alt`.`Attempts`;
 
 CREATE TABLE `wca_alt`.`Attempts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `personId` mediumint(8) unsigned NOT NULL,
-  `personLinkId` mediumint(8) unsigned NOT NULL,
-  `competitionId` mediumint(8) unsigned NOT NULL,
-  `competitionDate` date NOT NULL,
-  `eventId` tinyint(2) unsigned NOT NULL,
-  `roundTypeId` tinyint(2) unsigned NOT NULL,
-  `roundTypeFinal` tinyint(1) unsigned NOT NULL,
-  `formatId` tinyint(1) unsigned NOT NULL,
+  `person_id` mediumint(8) unsigned NOT NULL,
+  `person_link_id` mediumint(8) unsigned NOT NULL,
+  `competition_id` mediumint(8) unsigned NOT NULL,
+  `competition_date` date NOT NULL,
+  `event_id` tinyint(2) unsigned NOT NULL,
+  `round_type_id` tinyint(2) unsigned NOT NULL,
+  `round_type_final` tinyint(1) unsigned NOT NULL,
+  `format_id` tinyint(1) unsigned NOT NULL,
   `pos` smallint(5) unsigned NOT NULL,
   `best` int(11) NOT NULL,
   `average` int(11) NOT NULL,
   `attempt` tinyint(1) unsigned NOT NULL,
   `value` int(11) NOT NULL,
-  `resultSingle` int(11) NULL,
-  `resultAverage` int(11) NULL,
-  `isDnfSingle` tinyint(1) unsigned NOT NULL,
-  `isDnfAverage` tinyint(1) unsigned NOT NULL,
-  `regionalSingleRecord` char(3) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `regionalAverageRecord` char(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `result_single` int(11) NULL,
+  `result_average` int(11) NULL,
+  `is_dnf_single` tinyint(1) unsigned NOT NULL,
+  `is_dnf_average` tinyint(1) unsigned NOT NULL,
+  `regional_single_record` char(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `regional_average_record` char(3) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;

@@ -7,192 +7,192 @@
 */
 
 /* --------------------
-    Events
+    events
    -------------------- */
 
-INSERT INTO `wca_alt`.`Events` (`legacyId`, `name`, `rank`, `format`, `cellName`)
-SELECT `id`, `name`, `rank`, `format`, `cellName`
-FROM `Events`
+INSERT INTO `wca_alt`.`events` (`legacy_id`, `name`, `rank`, `format`, `cell_name`)
+SELECT `id`, `name`, `rank`, `format`, `cell_name`
+FROM `events`
 ORDER BY `rank`;
 
-CREATE UNIQUE INDEX `Events_legacyId` ON `wca_alt`.`Events` (`legacyId`);
+CREATE UNIQUE INDEX `events_legacy_id` ON `wca_alt`.`events` (`legacy_id`);
 
 
 /* --------------------
     Formats
    -------------------- */
 
-INSERT INTO `wca_alt`.`Formats` (`code`, `name`, `sort_by`, `sort_by_second`, `expected_solve_count`, `trim_fastest_n`, `trim_slowest_n`)
+INSERT INTO `wca_alt`.`formats` (`code`, `name`, `sort_by`, `sort_by_second`, `expected_solve_count`, `trim_fastest_n`, `trim_slowest_n`)
 SELECT `id`, `name`, `sort_by`, `sort_by_second`, `expected_solve_count`, `trim_fastest_n`, `trim_slowest_n`
-FROM `wca`.`Formats`
+FROM `wca`.`formats`
 ORDER BY `expected_solve_count`, `name`;
 
-CREATE UNIQUE INDEX `Formats_code` ON `wca_alt`.`Formats` (`code`);
+CREATE UNIQUE INDEX `formats_code` ON `wca_alt`.`formats` (`code`);
 
 
 /* --------------------
-    RoundTypes
+    round_types
    -------------------- */
 
-INSERT INTO `wca_alt`.`RoundTypes` (`code`, `rank`, `name`, `cellName`, `final`)
-SELECT `id`, `rank`, `name`, `cellName`, `final`
-FROM `wca`.`RoundTypes`
+INSERT INTO `wca_alt`.`round_types` (`code`, `rank`, `name`, `cell_name`, `final`)
+SELECT `id`, `rank`, `name`, `cell_name`, `final`
+FROM `wca`.`round_types`
 ORDER BY `rank`;
 
-CREATE UNIQUE INDEX `RoundTypes_code` ON `wca_alt`.`RoundTypes` (`code`);
+CREATE UNIQUE INDEX `round_types_code` ON `wca_alt`.`round_types` (`code`);
 
 
 /* --------------------
     Continents
    -------------------- */
 
-INSERT INTO `wca_alt`.`Continents` (`legacyId`, `name`, `recordName`, `latitude`, `longitude`, `zoom`)
-SELECT `id`, `name`, `recordName`, `latitude`, `longitude`, `zoom`
-FROM `Continents`
+INSERT INTO `wca_alt`.`continents` (`legacy_id`, `name`, `record_name`, `latitude`, `longitude`, `zoom`)
+SELECT `id`, `name`, `record_name`, `latitude`, `longitude`, `zoom`
+FROM `continents`
 ORDER BY `name`;
 
-CREATE UNIQUE INDEX `Continents_legacyId` ON `wca_alt`.`Continents` (`legacyId`);
+CREATE UNIQUE INDEX `continents_legacy_id` ON `wca_alt`.`continents` (`legacy_id`);
 
 
 /* --------------------
     Countries
    -------------------- */
 
-INSERT INTO `wca_alt`.`Countries` (`continentId`, `legacyId`, `name`, `continentName`, `iso2`)
-SELECT `Continents`.`id`, `Countries`.`id`, `Countries`.`name`, `Continents`.`name`, `Countries`.`iso2`
-FROM `Countries`
-JOIN `wca_alt`.`Continents` ON `Countries`.`continentId` = `Continents`.`legacyId`
-ORDER BY `Countries`.`name`;
+INSERT INTO `wca_alt`.`countries` (`continent_id`, `legacy_id`, `name`, `continent_name`, `iso2`)
+SELECT `continents`.`id`, `countries`.`id`, `countries`.`name`, `continents`.`name`, `countries`.`iso2`
+FROM `countries`
+JOIN `wca_alt`.`continents` ON `countries`.`continent_id` = `continents`.`legacy_id`
+ORDER BY `countries`.`name`;
 
-CREATE UNIQUE INDEX `Countries_legacyId` ON `wca_alt`.`Countries` (`legacyId`);
+CREATE UNIQUE INDEX `countries_legacy_id` ON `wca_alt`.`countries` (`legacy_id`);
 
 
 /* --------------------
-    Competitions
+    competitions
    -------------------- */
 
-INSERT INTO `wca_alt`.`Competitions`
-	(`countryId`, `continentId`, `legacyId`, `name`, `cityName`, `countryName`, `continentName`, `information`,
-    `year`, `month`, `day`, `endYear`,
-    `endMonth`, `endDay`,
+INSERT INTO `wca_alt`.`competitions`
+	(`country_id`, `continent_id`, `legacy_id`, `name`, `city_name`, `country_name`, `continent_name`, `information`,
+    `year`, `month`, `day`, `end_year`,
+    `end_month`, `end_day`,
     `start_date`, `end_date`,
-    `eventSpecs`, `wcaDelegate`, `organiser`,
-    `venue`, `venueAddress`, `venueDetails`, `external_website`, `cellName`, `latitude`, `longitude`)
-SELECT `Countries`.`id`, `Countries`.`continentId`, `Competitions`.`id`,
-	`Competitions`.`name`, `Competitions`.`cityName`, `Countries`.`name`, `Countries`.`ContinentName`, `Competitions`.`information`,
-    `Competitions`.`year`, `Competitions`.`month`, `Competitions`.`day`,
-    CASE WHEN `Competitions`.`endMonth` >= `Competitions`.`month` THEN `Competitions`.`year` ELSE `Competitions`.`year` + 1 END,
-		`Competitions`.`endMonth`, `Competitions`.`endDay`,
-    DATE_FORMAT(CONCAT(`Competitions`.`year`, "-", `Competitions`.`month`, "-", `Competitions`.`day`), "%Y-%m-%d") AS start_date,
-    DATE_FORMAT(CONCAT(CASE WHEN `Competitions`.`endMonth` >= `Competitions`.`month` THEN `Competitions`.`year` ELSE `Competitions`.`year` + 1 END,
-		"-", `Competitions`.`endMonth`, "-", `Competitions`.`endDay`), "%Y-%m-%d") AS end_date,
-    `Competitions`.`eventSpecs`, `Competitions`.`wcaDelegate`, `Competitions`.`organiser`,
-    `Competitions`.`venue`, `Competitions`.`venueAddress`, `Competitions`.`venueDetails`, `Competitions`.`external_website`,
-    `Competitions`.`cellName`, `Competitions`.`latitude`, `Competitions`.`longitude`
-FROM `wca`.`Competitions`
-JOIN `wca_alt`.`Countries` ON `Competitions`.`countryId` = `Countries`.`legacyId`
-ORDER BY start_date, end_date, `Competitions`.`name`;
+    `event_specs`, `wca_delegate`, `organiser`,
+    `venue`, `venue_address`, `venue_details`, `external_website`, `cell_name`, `latitude`, `longitude`)
+SELECT `countries`.`id`, `countries`.`continent_id`, `competitions`.`id`,
+	`competitions`.`name`, `competitions`.`city_name`, `countries`.`name`, `countries`.`continent_name`, `competitions`.`information`,
+    `competitions`.`year`, `competitions`.`month`, `competitions`.`day`,
+    CASE WHEN `competitions`.`end_month` >= `competitions`.`month` THEN `competitions`.`year` ELSE `competitions`.`year` + 1 END,
+		`competitions`.`end_month`, `competitions`.`end_day`,
+    DATE_FORMAT(CONCAT(`competitions`.`year`, "-", `competitions`.`month`, "-", `competitions`.`day`), "%Y-%m-%d") AS start_date,
+    DATE_FORMAT(CONCAT(CASE WHEN `competitions`.`end_month` >= `competitions`.`month` THEN `competitions`.`year` ELSE `competitions`.`year` + 1 END,
+		"-", `competitions`.`end_month`, "-", `competitions`.`end_day`), "%Y-%m-%d") AS end_date,
+    `competitions`.`event_specs`, `competitions`.`wca_delegate`, `competitions`.`organiser`,
+    `competitions`.`venue`, `competitions`.`venue_address`, `competitions`.`venue_details`, `competitions`.`external_website`,
+    `competitions`.`cell_name`, `competitions`.`latitude`, `competitions`.`longitude`
+FROM `wca`.`competitions`
+JOIN `wca_alt`.`countries` ON `competitions`.`country_id` = `countries`.`legacy_id`
+ORDER BY start_date, end_date, `competitions`.`name`;
 
-CREATE UNIQUE INDEX `Competitions_legacyId` ON `wca_alt`.`Competitions` (`legacyId`);
+CREATE UNIQUE INDEX `competitions_legacy_id` ON `wca_alt`.`competitions` (`legacy_id`);
 
 
 /* --------------------
     Scrambles
    -------------------- */
 
-INSERT INTO `wca_alt`.`Scrambles`
-	(`legacyId`, `competitionId`, `competitionCountryId`, `competitionContinentId`,
-    `eventId`, `roundTypeId`, `roundTypeCode`, `roundTypeFinal`,
-    `groupId`, `isExtra`, `scrambleNum`, `scramble`)
-SELECT `Scrambles`.`scrambleId`, `Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`,
-    `Events`.`id`, `RoundTypes`.`id`, `RoundTypes`.`code`, `RoundTypes`.`final`,
-    `Scrambles`.`groupId`, `Scrambles`.`isExtra`, `Scrambles`.`scrambleNum`, `Scrambles`.`scramble`
-FROM `Scrambles`
-JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `Scrambles`.`eventId`
-JOIN `wca_alt`.`Competitions` ON `Competitions`.`legacyId` = `Scrambles`.`competitionId`
-JOIN `wca_alt`.`RoundTypes` ON `RoundTypes`.`code` = `Scrambles`.`roundTypeId`
-ORDER BY `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`, `groupId`, `isExtra`, `scrambleNum`;
+INSERT INTO `wca_alt`.`scrambles`
+	(`legacy_id`, `competition_id`, `competition_country_id`, `competition_continent_id`,
+    `event_id`, `round_type_id`, `round_type_code`, `round_type_final`,
+    `group.wca_id`, `is_extra`, `scramble_num`, `scramble`)
+SELECT `scrambles`.`scramble_id`, `competitions`.`id`, `competitions`.`country_id`, `competitions`.`continent_id`,
+    `events`.`id`, `round_types`.`id`, `round_types`.`code`, `round_types`.`final`,
+    `scrambles`.`group.wca_id`, `scrambles`.`is_extra`, `scrambles`.`scramble_num`, `scrambles`.`scramble`
+FROM `scrambles`
+JOIN `wca_alt`.`events` ON `events`.`legacy_id` = `scrambles`.`event_id`
+JOIN `wca_alt`.`competitions` ON `competitions`.`legacy_id` = `scrambles`.`competition_id`
+JOIN `wca_alt`.`round_types` ON `round_types`.`code` = `scrambles`.`round_type_id`
+ORDER BY `competitions`.`id`, `events`.`id`, `round_types`.`id`, `group.wca_id`, `is_extra`, `scramble_num`;
 
 
 /* --------------------
-    Persons
+    persons
    -------------------- */
 
-INSERT INTO `wca_alt`.`Persons` (`wcaId`, `subid`, `countryId`, `continentId`, `name`, `countryName`, `continentName`, `gender`)
-SELECT `Persons`.`id`, `Persons`.`subid`, `Countries`.`id`, `Countries`.`continentId`,
-	`Persons`.`name`, `Countries`.`name`, `Countries`.`continentName`, `Persons`.`gender`
-FROM `wca`.`Persons`
-JOIN `wca_alt`.`Countries` ON `Persons`.`countryId` = `Countries`.`legacyId`
-ORDER BY `Persons`.`id`, `Persons`.`subid` DESC;
+INSERT INTO `wca_alt`.`persons` (`wca_id`, `sub_id`, `country_id`, `continent_id`, `name`, `country_name`, `continent_name`, `gender`)
+SELECT `persons`.`wca_id`, `persons`.`sub_id`, `countries`.`id`, `countries`.`continent_id`,
+	`persons`.`name`, `countries`.`name`, `countries`.`continent_name`, `persons`.`gender`
+FROM `wca`.`persons`
+JOIN `wca_alt`.`countries` ON `persons`.`country_id` = `countries`.`legacy_id`
+ORDER BY `persons`.`wca_id`, `persons`.`sub_id` DESC;
 
-CREATE UNIQUE INDEX `Persons_wcaId_subid` ON `wca_alt`.`Persons` (`wcaId`, `subid`);
+CREATE UNIQUE INDEX `persons_wca_id_sub_id` ON `wca_alt`.`persons` (`wca_id`, `sub_id`);
 
-UPDATE `wca_alt`.`Persons` AS p1
-INNER JOIN `wca_alt`.`Persons` AS p2 ON p2.`wcaId` = p1.`wcaId` AND p2.`subid` = 1
-SET p1.`linkId` = p2.`id`;
+UPDATE `wca_alt`.`persons` AS p1
+INNER JOIN `wca_alt`.`persons` AS p2 ON p2.`wca_id` = p1.`wca_id` AND p2.`sub_id` = 1
+SET p1.`link_id` = p2.`id`;
 
 
 /* --------------------
-    RanksSingle
+    ranks_single
    -------------------- */
 
-INSERT INTO `wca_alt`.`RanksSingle`
-	(`personId`, `countryId`, `continentId`, `eventId`,
-    `best`, `worldRank`, `continentRank`, `countryRank`)
-SELECT `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`, `Events`.`id`,
-	`RanksSingle`.`best`, `RanksSingle`.`worldRank`, `RanksSingle`.`continentRank`, `RanksSingle`.`countryRank`
-FROM `RanksSingle` USE INDEX ()
-JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `RanksSingle`.`eventId`
-JOIN `wca_alt`.`Persons` ON `Persons`.`wcaId` = `RanksSingle`.`personId` AND `Persons`.`subid` = 1
-ORDER BY `Persons`.`id`, `Events`.`id`;
+INSERT INTO `wca_alt`.`ranks_single`
+	(`person_id`, `country_id`, `continent_id`, `event_id`,
+    `best`, `world_rank`, `continent_rank`, `country_rank`)
+SELECT `persons`.`wca_id`, `persons`.`country_id`, `persons`.`continent_id`, `events`.`id`,
+	`ranks_single`.`best`, `ranks_single`.`world_rank`, `ranks_single`.`continent_rank`, `ranks_single`.`country_rank`
+FROM `ranks_single` USE INDEX ()
+JOIN `wca_alt`.`events` ON `events`.`legacy_id` = `ranks_single`.`event_id`
+JOIN `wca_alt`.`persons` ON `persons`.`wca_id` = `ranks_single`.`person_id` AND `persons`.`sub_id` = 1
+ORDER BY `persons`.`wca_id`, `events`.`id`;
 
 
 /* --------------------
-    RanksAverage
+    ranks_average
    -------------------- */
 
-INSERT INTO `wca_alt`.`RanksAverage`
-	(`personId`, `countryId`, `continentId`, `eventId`,
-    `best`, `worldRank`, `continentRank`, `countryRank`)
-SELECT `Persons`.`id`, `Persons`.`countryId`, `Persons`.`continentId`, `Events`.`id`,
-	`RanksAverage`.`best`, `RanksAverage`.`worldRank`, `RanksAverage`.`continentRank`, `RanksAverage`.`countryRank`
-FROM `RanksAverage` USE INDEX ()
-JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `RanksAverage`.`eventId`
-JOIN `wca_alt`.`Persons` ON `Persons`.`wcaId` = `RanksAverage`.`personId` AND `Persons`.`subid` = 1
-ORDER BY `Persons`.`id`, `Events`.`id`;
+INSERT INTO `wca_alt`.`ranks_average`
+	(`person_id`, `country_id`, `continent_id`, `event_id`,
+    `best`, `world_rank`, `continent_rank`, `country_rank`)
+SELECT `persons`.`wca_id`, `persons`.`country_id`, `persons`.`continent_id`, `events`.`id`,
+	`ranks_average`.`best`, `ranks_average`.`world_rank`, `ranks_average`.`continent_rank`, `ranks_average`.`country_rank`
+FROM `ranks_average` USE INDEX ()
+JOIN `wca_alt`.`events` ON `events`.`legacy_id` = `ranks_average`.`event_id`
+JOIN `wca_alt`.`persons` ON `persons`.`wca_id` = `ranks_average`.`person_id` AND `persons`.`sub_id` = 1
+ORDER BY `persons`.`wca_id`, `events`.`id`;
 
 
 /* --------------------
-    Results
+    results
    -------------------- */
 
-INSERT INTO `wca_alt`.`Results`
-	(`personId`, `personLinkId`,
-    `personCountryId`, `personContinentId`,
-	`competitionId`, `competitionCountryId`, `competitionContinentId`, `competitionDate`,
-	`eventId`,
-    `roundTypeId`, `roundTypeCode`, `roundTypeFinal`,
-	`formatId`, `formatCode`,
+INSERT INTO `wca_alt`.`results`
+	(`person_id`, `person_link_id`,
+    `person_country_id`, `person_continent_id`,
+	`competition_id`, `competition_country_id`, `competition_continent_id`, `competition_date`,
+	`event_id`,
+    `round_type_id`, `round_type_code`, `round_type_final`,
+	`format_id`, `format_code`,
     `pos`, `best`, `average`,
 	`value1`, `value2`, `value3`, `value4`, `value5`,
-    `regionalSingleRecord`, `regionalAverageRecord`)
-SELECT `Persons`.`id`, `Persons`.`linkId`,
-	`Countries`.`id`, `Countries`.`ContinentId`,
-	`Competitions`.`id`, `Competitions`.`countryId`, `Competitions`.`continentId`, `Competitions`.`start_date`,
-	`Events`.`id`,
-    `RoundTypes`.`id`, `RoundTypes`.`code`, `RoundTypes`.`final`,
-    `Formats`.`id`, `Formats`.`code`,
-    `Results`.`pos`, `Results`.`best`, `Results`.`average`,
-    `Results`.`value1`, `Results`.`value2`, `Results`.`value3`, `Results`.`value4`, `Results`.`value5`,
-    `Results`.`regionalSingleRecord`, `Results`.`regionalAverageRecord`
-FROM `wca`.`Results` USE INDEX ()
-JOIN `wca_alt`.`Persons` ON `Persons`.`wcaId` = `Results`.`personId` AND `Persons`.`name` = `Results`.`personName`
-JOIN `wca_alt`.`Countries` ON `Countries`.`legacyId` = `Results`.`personCountryId` AND `Countries`.`id` = `Persons`.`countryId`
-JOIN `wca_alt`.`Competitions` ON `Competitions`.`legacyId` = `Results`.`competitionId`
-JOIN `wca_alt`.`Events` ON `Events`.`legacyId` = `Results`.`eventId`
-JOIN `wca_alt`.`RoundTypes` ON `RoundTypes`.`code` = `Results`.`roundTypeId`
-JOIN `wca_alt`.`Formats` ON `Formats`.`code` = `Results`.`formatId`
-ORDER BY `Persons`.`id`, `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`;
+    `regional_single_record`, `regional_average_record`)
+SELECT `persons`.`wca_id`, `persons`.`link_id`,
+	`countries`.`id`, `countries`.`continent_id`,
+	`competitions`.`id`, `competitions`.`country_id`, `competitions`.`continent_id`, `competitions`.`start_date`,
+	`events`.`id`,
+    `round_types`.`id`, `round_types`.`code`, `round_types`.`final`,
+    `formats`.`id`, `formats`.`code`,
+    `results`.`pos`, `results`.`best`, `results`.`average`,
+    `results`.`value1`, `results`.`value2`, `results`.`value3`, `results`.`value4`, `results`.`value5`,
+    `results`.`regional_single_record`, `results`.`regional_average_record`
+FROM `wca`.`results` USE INDEX ()
+JOIN `wca_alt`.`persons` ON `persons`.`wca_id` = `results`.`person_id` AND `persons`.`name` = `results`.`person_name`
+JOIN `wca_alt`.`countries` ON `countries`.`legacy_id` = `results`.`person_country_id` AND `countries`.`id` = `persons`.`country_id`
+JOIN `wca_alt`.`competitions` ON `competitions`.`legacy_id` = `results`.`competition_id`
+JOIN `wca_alt`.`events` ON `events`.`legacy_id` = `results`.`event_id`
+JOIN `wca_alt`.`round_types` ON `round_types`.`code` = `results`.`round_type_id`
+JOIN `wca_alt`.`formats` ON `formats`.`code` = `results`.`format_id`
+ORDER BY `persons`.`wca_id`, `competitions`.`id`, `events`.`id`, `round_types`.`id`;
 
 
 /* --------------------
@@ -200,24 +200,24 @@ ORDER BY `Persons`.`id`, `Competitions`.`id`, `Events`.`id`, `RoundTypes`.`id`;
    -------------------- */
 
 INSERT INTO `wca_alt`.`Attempts`
-	(`personId`, `personLinkId`, `competitionId`, `competitionDate`, `eventId`,
-    `roundTypeId`, `roundTypeFinal`, `formatId`,
+	(`person_id`, `person_link_id`, `competition_id`, `competition_date`, `event_id`,
+    `round_type_id`, `round_type_final`, `format_id`,
 	`pos`, `best`, `average`, `attempt`,
-    `value`, `resultSingle`, `resultAverage`, `isDnfSingle`, `isDnfAverage`,
-    `regionalSingleRecord`, `regionalAverageRecord`)
+    `value`, `result_single`, `result_average`, `is_dnf_single`, `is_dnf_average`,
+    `regional_single_record`, `regional_average_record`)
 WITH cte AS
 (
-	SELECT `personId`, `personLinkId`, `competitionId`, `competitionDate`, `eventId`,
-		`roundTypeId`, `roundTypeFinal`, `formatId`,
+	SELECT `person_id`, `person_link_id`, `competition_id`, `competition_date`, `event_id`,
+		`round_type_id`, `round_type_final`, `format_id`,
 		`pos`, `best`, `average`, `seq`,
         @value := CASE WHEN seq = 1 THEN value1 WHEN seq = 2 THEN value2 WHEN seq = 3 THEN value3 WHEN seq = 4 THEN value4 WHEN seq = 5 THEN value5 END AS value,
-        IF(@value > 0, @value, NULL) AS resultSingle,
-        IF(average > 0, average, NULL) AS resultAverage,
-        IF(@value = -1, 1, 0) AS isDnfSingle,
-        IF(average = -1, 1, 0) AS isDnfAverage,
-        IF(regionalSingleRecord != '' AND @value = best, regionalSingleRecord, '') AS regionalSingleRecord,
-        `regionalAverageRecord`
-	FROM `wca_alt`.`Results`
+        IF(@value > 0, @value, NULL) AS result_single,
+        IF(average > 0, average, NULL) AS result_average,
+        IF(@value = -1, 1, 0) AS is_dnf_single,
+        IF(average = -1, 1, 0) AS is_dnf_average,
+        IF(regional_single_record != '' AND @value = best, regional_single_record, '') AS regional_single_record,
+        `regional_average_record`
+	FROM `wca_alt`.`results`
 	JOIN `seq_1_to_5`
 )
 SELECT *

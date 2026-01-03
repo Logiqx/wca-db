@@ -7,97 +7,97 @@
 */
 
 /* --------------------
-    Events
+    events
    -------------------- */
 
-CREATE UNIQUE INDEX `Events_name` ON `wca_alt`.`Events` (`name`);
+CREATE UNIQUE INDEX `events_name` ON `wca_alt`.`events` (`name`);
 
 
 /* --------------------
     Formats
    -------------------- */
 
-CREATE UNIQUE INDEX `Formats_name` ON `wca_alt`.`Formats` (`name`);
+CREATE UNIQUE INDEX `formats_name` ON `wca_alt`.`formats` (`name`);
 
 
 /* --------------------
-    RoundTypes
+    round_types
    -------------------- */
 
-CREATE UNIQUE INDEX `RoundTypes_name` ON `wca_alt`.`RoundTypes` (`name`);
+CREATE UNIQUE INDEX `round_types_name` ON `wca_alt`.`round_types` (`name`);
 
 
 /* --------------------
     Continents
    -------------------- */
 
-CREATE UNIQUE INDEX `Continents_name` ON `wca_alt`.`Continents` (`name`);
+CREATE UNIQUE INDEX `continents_name` ON `wca_alt`.`continents` (`name`);
 
 
 /* --------------------
     Countries
    -------------------- */
 
-CREATE UNIQUE INDEX `Countries_iso2` ON `wca_alt`.`Countries` (`iso2`);
-CREATE UNIQUE INDEX `Countries_name` ON `wca_alt`.`Countries` (`name`);
-CREATE INDEX `Countries_continentName` ON `wca_alt`.`Countries` (`continentName`);
+CREATE UNIQUE INDEX `countries_iso2` ON `wca_alt`.`countries` (`iso2`);
+CREATE UNIQUE INDEX `countries_name` ON `wca_alt`.`countries` (`name`);
+CREATE INDEX `countries_continent_name` ON `wca_alt`.`countries` (`continent_name`);
 
 
 /* --------------------
-    Competitions
+    competitions
    -------------------- */
 
-CREATE UNIQUE INDEX `Competitions_name` ON `wca_alt`.`Competitions` (`name`);
-CREATE INDEX `Competitions_countryName` ON `wca_alt`.`Competitions` (`countryName`);
-CREATE INDEX `Competitions_continentName` ON `wca_alt`.`Competitions` (`continentName`);
-CREATE INDEX `Competitions_year_month_day` ON `wca_alt`.`Competitions` (`year`, `month`, `day`);
-CREATE INDEX `Competitions_start_date` ON `wca_alt`.`Competitions` (`start_date`);
+CREATE UNIQUE INDEX `competitions_name` ON `wca_alt`.`competitions` (`name`);
+CREATE INDEX `competitions_country_name` ON `wca_alt`.`competitions` (`country_name`);
+CREATE INDEX `competitions_continent_name` ON `wca_alt`.`competitions` (`continent_name`);
+CREATE INDEX `competitions_year_month_day` ON `wca_alt`.`competitions` (`year`, `month`, `day`);
+CREATE INDEX `competitions_start_date` ON `wca_alt`.`competitions` (`start_date`);
 
 
 /* --------------------
     Scrambles
    -------------------- */
 
-CREATE INDEX `Scrambles_competitionId_eventId` ON `wca_alt`.`Scrambles` (`competitionId`, `eventId`);
-CREATE INDEX `Scrambles_competitionCountryId_eventId` ON `wca_alt`.`Scrambles` (`competitionCountryId`, `eventId`);
-CREATE INDEX `Scrambles_competitionContinentId_eventId` ON `wca_alt`.`Scrambles` (`competitionContinentId`, `eventId`);
-CREATE INDEX `Scrambles_eventId` ON `wca_alt`.`Scrambles` (`eventId`);
+CREATE INDEX `scrambles_competition_id_event_id` ON `wca_alt`.`scrambles` (`competition_id`, `event_id`);
+CREATE INDEX `scrambles_competition_country_id_event_id` ON `wca_alt`.`scrambles` (`competition_country_id`, `event_id`);
+CREATE INDEX `scrambles_competition_continent_id_event_id` ON `wca_alt`.`scrambles` (`competition_continent_id`, `event_id`);
+CREATE INDEX `scrambles_event_id` ON `wca_alt`.`scrambles` (`event_id`);
 
 
 /* --------------------
-    Persons
+    persons
    -------------------- */
 
-CREATE INDEX `Persons_name` ON `wca_alt`.`Persons` (`name`);
-CREATE INDEX `Persons_countryName` ON `wca_alt`.`Persons` (`countryName`);
-CREATE INDEX `Persons_continentName` ON `wca_alt`.`Persons` (`continentName`);
+CREATE INDEX `persons_name` ON `wca_alt`.`persons` (`name`);
+CREATE INDEX `persons_country_name` ON `wca_alt`.`persons` (`country_name`);
+CREATE INDEX `persons_continent_name` ON `wca_alt`.`persons` (`continent_name`);
 
 
 /* --------------------
-    RanksSingle
+    ranks_single
    -------------------- */
 
-CREATE UNIQUE INDEX `RanksSingle_personId_eventId` ON `wca_alt`.`RanksSingle` (`personId`, `eventId`);
-CREATE INDEX `RanksSingle_countryId_eventId` ON `wca_alt`.`RanksSingle` (`countryId`, `eventId`);
-CREATE INDEX `RanksSingle_continentId_eventId` ON `wca_alt`.`RanksSingle` (`continentId`, `eventId`);
-CREATE INDEX `RanksSingle_eventId` ON `wca_alt`.`RanksSingle` (`eventId`);
+CREATE UNIQUE INDEX `ranks_single_person_id_event_id` ON `wca_alt`.`ranks_single` (`person_id`, `event_id`);
+CREATE INDEX `ranks_single_country_id_event_id` ON `wca_alt`.`ranks_single` (`country_id`, `event_id`);
+CREATE INDEX `ranks_single_continent_id_event_id` ON `wca_alt`.`ranks_single` (`continent_id`, `event_id`);
+CREATE INDEX `ranks_single_event_id` ON `wca_alt`.`ranks_single` (`event_id`);
 
 
 /* --------------------
-    RanksAverage
+    ranks_average
    -------------------- */
 
-CREATE UNIQUE INDEX `RanksAverage_personId_eventId` ON `wca_alt`.`RanksAverage` (`personId`, `eventId`);
-CREATE INDEX `RanksAverage_countryId_eventId` ON `wca_alt`.`RanksAverage` (`countryId`, `eventId`);
-CREATE INDEX `RanksAverage_continentId_eventId` ON `wca_alt`.`RanksAverage` (`continentId`, `eventId`);
-CREATE INDEX `RanksAverage_eventId` ON `wca_alt`.`RanksAverage` (`eventId`);
+CREATE UNIQUE INDEX `ranks_average_person_id_event_id` ON `wca_alt`.`ranks_average` (`person_id`, `event_id`);
+CREATE INDEX `ranks_average_country_id_event_id` ON `wca_alt`.`ranks_average` (`country_id`, `event_id`);
+CREATE INDEX `ranks_average_continent_id_event_id` ON `wca_alt`.`ranks_average` (`continent_id`, `event_id`);
+CREATE INDEX `ranks_average_event_id` ON `wca_alt`.`ranks_average` (`event_id`);
 
 
 /* --------------------
-    Results
+    results
    -------------------- */
 
-CREATE INDEX `Results_personId_eventId` ON `wca_alt`.`Results` (`personId`, `eventId`);
-CREATE INDEX `Results_personCountryId_eventId` ON `wca_alt`.`Results` (`personCountryId`, `eventId`);
-CREATE INDEX `Results_personContinentId_eventId` ON `wca_alt`.`Results` (`personContinentId`, `eventId`);
-CREATE INDEX `Results_eventId` ON `wca_alt`.`Results` (`eventId`);
+CREATE INDEX `results_person_id_event_id` ON `wca_alt`.`results` (`person_id`, `event_id`);
+CREATE INDEX `results_person_country_id_event_id` ON `wca_alt`.`results` (`person_country_id`, `event_id`);
+CREATE INDEX `results_person_continent_id_event_id` ON `wca_alt`.`results` (`person_continent_id`, `event_id`);
+CREATE INDEX `results_event_id` ON `wca_alt`.`results` (`event_id`);

@@ -7,13 +7,13 @@
 */
 
 -- Scrambles
-EXPLAIN SELECT * FROM wca_alt.ScramblesView ORDER BY id;
+EXPLAIN SELECT * FROM wca_alt.scrambles_view ORDER BY id;
 
 -- Rankings
-EXPLAIN SELECT * FROM wca_alt.RanksSingleView ORDER BY id;
-EXPLAIN SELECT * FROM wca_alt.RanksAverageView ORDER BY id;
+EXPLAIN SELECT * FROM wca_alt.ranks_single_view ORDER BY id;
+EXPLAIN SELECT * FROM wca_alt.ranks_average_view ORDER BY id;
 
--- Results
-EXPLAIN SELECT * FROM wca_alt.ResultsView ORDER BY id;
-EXPLAIN SELECT * FROM wca_alt.PersonResultsView ORDER BY id;
-EXPLAIN SELECT * FROM wca_alt.CompetitionResultsView ORDER BY id;
+-- results
+EXPLAIN SELECT * FROM wca_alt.results_view ORDER BY id;
+EXPLAIN SELECT * FROM wca_alt.person_results_view ORDER BY id;
+EXPLAIN SELECT * FROM wca_alt.competition_results_view ORDER BY id;

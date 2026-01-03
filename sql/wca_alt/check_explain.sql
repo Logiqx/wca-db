@@ -7,150 +7,150 @@
 */
 
 /*
-    RanksSingleView
+    ranks_single_view
 
-	Note: The use of p.wcaId (not r. wcaId) in RanksSingleView is crucial for the the first two queries
+	Note: The use of p.wca_id (not r. wca_id) in ranks_single_view is crucial for the the first two queries
 */
 
--- Expected keys: Events_name, Persons_wcaId_subid, RanksSingle_personId_eventId
+-- Expected keys: events_name, persons_wca_id_sub_id, ranks_single_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksSingleView
-WHERE wcaId IN ('2007JOON01', '2012NADA01', '2014HABO01')
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_single_view
+WHERE wca_id IN ('2007JOON01', '2012NADA01', '2014HABO01')
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_wcaId_subid, RanksSingle_personId_eventId
+-- Expected keys: events_name, persons_wca_id_sub_id, ranks_single_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksSingleView
-WHERE wcaId = '2015GEOR02'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_single_view
+WHERE wca_id = '2015GEOR02'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_countryName, RanksSingle_personId_eventId
+-- Expected keys: events_name, persons_country_name, ranks_single_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksSingleView
-WHERE countryName = 'United Kingdom'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_single_view
+WHERE country_name = 'United Kingdom'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_continentName, RanksSingle_personId_eventId
+-- Expected keys: events_name, persons_continent_name, ranks_single_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksSingleView
-WHERE continentName = 'Europe'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_single_view
+WHERE continent_name = 'Europe'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, RanksSingle_personId_eventId
+-- Expected keys: events_name, ranks_single_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksSingleView
-WHERE eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_single_view
+WHERE event_name = '3x3x3 Cube';
 
 
 /*
-    RanksAverageView
+    ranks_average_view
 
-	Note: The use of p.wcaId (not r. wcaId) in RanksAverageView is crucial for the the first two queries
+	Note: The use of p.wca_id (not r. wca_id) in ranks_average_view is crucial for the the first two queries
 */
 
--- Expected keys: Events_name, Persons_wcaId_subid, RanksAverage_personId_eventId
+-- Expected keys: events_name, persons_wca_id_sub_id, ranks_average_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksAverageView
-WHERE wcaId IN ('2007JOON01', '2012NADA01', '2014HABO01')
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_average_view
+WHERE wca_id IN ('2007JOON01', '2012NADA01', '2014HABO01')
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_wcaId_subid, RanksAverage_personId_eventId
+-- Expected keys: events_name, persons_wca_id_sub_id, ranks_average_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksAverageView
-WHERE wcaId = '2015GEOR02'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_average_view
+WHERE wca_id = '2015GEOR02'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_countryName, RanksAverage_personId_eventId
+-- Expected keys: events_name, persons_country_name, ranks_average_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksAverageView
-WHERE countryName = 'United Kingdom'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_average_view
+WHERE country_name = 'United Kingdom'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_continentName, RanksAverage_personId_eventId
+-- Expected keys: events_name, persons_continent_name, ranks_average_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksAverageView
-WHERE continentName = 'Europe'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_average_view
+WHERE continent_name = 'Europe'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, RanksAverage_personId_eventId
+-- Expected keys: events_name, ranks_average_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.RanksAverageView
-WHERE eventName = '3x3x3 Cube';
+FROM wca_alt.ranks_average_view
+WHERE event_name = '3x3x3 Cube';
 
 
 /*
-    ResultsView
+    results_view
 
-	Note: The use of p.wcaId (not r. wcaId) in ResultsView is crucial for the the first two queries
+	Note: The use of p.wca_id (not r. wca_id) in results_view is crucial for the the first two queries
 */
 
 -- Expected keys: TODO
 EXPLAIN SELECT *
-FROM wca_alt.ResultsView
-WHERE eventName = '3x3x3 Cube';
+FROM wca_alt.results_view
+WHERE event_name = '3x3x3 Cube';
 
 -- Expected keys: TODO
 EXPLAIN SELECT *
-FROM wca_alt.ResultsView
-WHERE formatName = 'Mean of 3';
+FROM wca_alt.results_view
+WHERE format_name = 'Mean of 3';
 
 -- Expected keys: TODO
 EXPLAIN SELECT *
-FROM wca_alt.ResultsView
-WHERE roundTypeName = 'Final';
+FROM wca_alt.results_view
+WHERE round_type_name = 'Final';
 
 /*
-    PersonResultsView
+    person_results_view
 
-	Note: The use of p.wcaId (not r. wcaId) in ResultsView is crucial for the the first two queries
+	Note: The use of p.wca_id (not r. wca_id) in results_view is crucial for the the first two queries
 */
 
--- Expected keys: Events_name, Persons_wcaId_subid, Results_personId_eventId
+-- Expected keys: events_name, persons_wca_id_sub_id, results_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.PersonResultsView
-WHERE wcaId IN ('2007JOON01', '2012NADA01', '2014HABO01')
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.person_results_view
+WHERE wca_id IN ('2007JOON01', '2012NADA01', '2014HABO01')
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_wcaId_subid, Results_personId_eventId
+-- Expected keys: events_name, persons_wca_id_sub_id, results_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.PersonResultsView
-WHERE wcaId = '2015GEOR02'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.person_results_view
+WHERE wca_id = '2015GEOR02'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_countryName, Results_personId_eventId
+-- Expected keys: events_name, persons_country_name, results_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.PersonResultsView
-WHERE personCountryName = 'United Kingdom'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.person_results_view
+WHERE person_country_name = 'United Kingdom'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Persons_continentName, Results_personId_eventId
+-- Expected keys: events_name, persons_continent_name, results_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.PersonResultsView
-WHERE personContinentName = 'Europe'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.person_results_view
+WHERE person_continent_name = 'Europe'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Results_personId_eventId
+-- Expected keys: events_name, results_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.PersonResultsView
-WHERE eventName = '3x3x3 Cube';
+FROM wca_alt.person_results_view
+WHERE event_name = '3x3x3 Cube';
 
 /*
-    CompetitionResultsView
+    competition_results_view
 */
 
--- Expected keys: Events_name, Competitions_countryName, Results_personId_eventId
+-- Expected keys: events_name, competitions_country_name, results_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.CompetitionResultsView
-WHERE competitionCountryName = 'United Kingdom'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.competition_results_view
+WHERE competition_country_name = 'United Kingdom'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Competitions_continentName, Results_personId_eventId
+-- Expected keys: events_name, competitions_continent_name, results_person_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.CompetitionResultsView
-WHERE competitionContinentName = 'Europe'
-AND eventName = '3x3x3 Cube';
+FROM wca_alt.competition_results_view
+WHERE competition_continent_name = 'Europe'
+AND event_name = '3x3x3 Cube';
 
--- Expected keys: Events_name, Results_competitionId_eventId
+-- Expected keys: events_name, results_competition_id_event_id
 EXPLAIN SELECT *
-FROM wca_alt.CompetitionResultsView
-WHERE eventName = '3x3x3 Cube';
+FROM wca_alt.competition_results_view
+WHERE event_name = '3x3x3 Cube';
