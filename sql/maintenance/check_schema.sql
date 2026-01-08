@@ -1,5 +1,5 @@
 /* 
-    Script:   Database Inconsistencies
+    Script:   Check schema
     Created:  2025-12-30
     Author:   Michael George / 2015GEOR02
    
