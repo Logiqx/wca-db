@@ -14,7 +14,7 @@ CREATE UNIQUE INDEX `events_name` ON `wca_alt`.`events` (`name`);
 
 
 /* --------------------
-    Formats
+    formats
    -------------------- */
 
 CREATE UNIQUE INDEX `formats_name` ON `wca_alt`.`formats` (`name`);
@@ -28,14 +28,14 @@ CREATE UNIQUE INDEX `round_types_name` ON `wca_alt`.`round_types` (`name`);
 
 
 /* --------------------
-    Continents
+    continents
    -------------------- */
 
 CREATE UNIQUE INDEX `continents_name` ON `wca_alt`.`continents` (`name`);
 
 
 /* --------------------
-    Countries
+    countries
    -------------------- */
 
 CREATE UNIQUE INDEX `countries_iso2` ON `wca_alt`.`countries` (`iso2`);
@@ -47,7 +47,7 @@ CREATE INDEX `countries_continent_name` ON `wca_alt`.`countries` (`continent_nam
     competitions
    -------------------- */
 
-CREATE UNIQUE INDEX `competitions_name` ON `wca_alt`.`competitions` (`name`);
+CREATE INDEX `competitions_name` ON `wca_alt`.`competitions` (`name`);
 CREATE INDEX `competitions_country_name` ON `wca_alt`.`competitions` (`country_name`);
 CREATE INDEX `competitions_continent_name` ON `wca_alt`.`competitions` (`continent_name`);
 CREATE INDEX `competitions_year_month_day` ON `wca_alt`.`competitions` (`year`, `month`, `day`);
@@ -55,7 +55,7 @@ CREATE INDEX `competitions_start_date` ON `wca_alt`.`competitions` (`start_date`
 
 
 /* --------------------
-    Scrambles
+    scrambles
    -------------------- */
 
 CREATE INDEX `scrambles_competition_id_event_id` ON `wca_alt`.`scrambles` (`competition_id`, `event_id`);
