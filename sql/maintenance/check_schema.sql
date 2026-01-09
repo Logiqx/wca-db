@@ -6,6 +6,35 @@
     Purpose:  Check for inconsistencies between results export and developer database
 */
 
+-- Check for list of IDs
+--   Too many for me to be inclined to review
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, COLUMN_KEY
+FROM INFORMATION_SCHEMA.COLUMNS AS c1
+WHERE TABLE_SCHEMA IN ('wca', 'wca_dev')
+AND COLUMN_NAME LIKE '%_id'
+AND COLUMN_NAME NOT IN (
+'competition_id', 'continent_id', 'country_id', 'event_id', 'format_id', 'person_id', 'wca_id', 'round_type_id'
+)
+ORDER BY TABLE_SCHEMA, COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH, TABLE_NAME;
+
+-- Check which tables have the wrong type for foreign keys
+--   Suggestion: championships table in results export could use shorter types
+--   Thoughts: varchar(191) is prolific in the dev database, possibly a default length chosen by the devs?
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, COLUMN_KEY
+FROM INFORMATION_SCHEMA.COLUMNS AS c1
+WHERE TABLE_SCHEMA IN ('wca', 'wca_dev')
+AND (
+	COLUMN_NAME = 'competition_id' AND CHARACTER_MAXIMUM_LENGTH <> 32
+    OR COLUMN_NAME LIKE '%continent_id' AND CHARACTER_MAXIMUM_LENGTH <> 50
+	OR COLUMN_NAME LIKE '%country_id' AND CHARACTER_MAXIMUM_LENGTH <> 50
+	OR COLUMN_NAME LIKE '%event_id' AND CHARACTER_MAXIMUM_LENGTH <> 6
+	OR COLUMN_NAME LIKE '%format_id' AND CHARACTER_MAXIMUM_LENGTH <> 1
+	OR COLUMN_NAME LIKE '%person_id' AND CHARACTER_MAXIMUM_LENGTH <> 10
+	OR COLUMN_NAME LIKE '%wca_id' AND CHARACTER_MAXIMUM_LENGTH <> 10
+	OR COLUMN_NAME LIKE '%round_type_id' AND CHARACTER_MAXIMUM_LENGTH <> 1
+)
+ORDER BY TABLE_SCHEMA, COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH, TABLE_NAME;
+
 -- Check which tables have an `id` column, which is always the primary key - no surprises
 --   10 tables in results export
 --     excludes persons, ranks_average, ranks_single, ar_internal_metadata, eligible_country_iso2s_for_championship, schema_migrations
@@ -53,6 +82,20 @@ AND NOT EXISTS
 	SELECT 1
     FROM INFORMATION_SCHEMA.COLUMNS AS c2
     WHERE table_schema = 'wca_dev'
+    AND c2.TABLE_NAME = c1.TABLE_NAME
+    AND c2.COLUMN_NAME = c1.COLUMN_NAME
+)
+ORDER BY TABLE_SCHEMA, TABLE_NAME, COLUMN_TYPE, LENGTH(COLUMN_NAME), COLUMN_NAME;
+
+-- Compare tables in results export against alterative schema
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT
+FROM INFORMATION_SCHEMA.COLUMNS AS c1
+WHERE table_schema = 'wca'
+AND NOT EXISTS
+(
+	SELECT 1
+    FROM INFORMATION_SCHEMA.COLUMNS AS c2
+    WHERE table_schema = 'wca_alt'
     AND c2.TABLE_NAME = c1.TABLE_NAME
     AND c2.COLUMN_NAME = c1.COLUMN_NAME
 )
