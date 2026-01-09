@@ -67,7 +67,26 @@ JOIN INFORMATION_SCHEMA.COLUMNS AS c2 ON c2.table_name = c1.table_name AND c2.co
 WHERE c1.TABLE_SCHEMA = 'wca'
 AND c2.TABLE_SCHEMA = 'wca_dev'
 AND c1.COLUMN_TYPE <> c2.COLUMN_TYPE
-ORDER BY c1.TABLE_NAME, c1.DATA_TYPE, LENGTH(c1.COLUMN_NAME), c1.COLUMN_NAME;
+ORDER BY c1.TABLE_NAME, c1.COLUMN_TYPE, LENGTH(c1.COLUMN_NAME), c1.COLUMN_NAME;
+
+-- Show fields with differing types in wca_alt
+--    Nothing really worth reporting, except perhaps events.name being 54 characters
+SELECT c1.TABLE_NAME, c1.COLUMN_NAME, c1.COLUMN_TYPE AS results_type, c2.COLUMN_TYPE AS possible_type
+FROM INFORMATION_SCHEMA.COLUMNS AS c1
+JOIN INFORMATION_SCHEMA.COLUMNS AS c2 ON c2.table_name = c1.table_name AND c2.column_name = c1.column_name
+WHERE c1.TABLE_SCHEMA = 'wca'
+AND c2.TABLE_SCHEMA = 'wca_alt'
+AND c1.COLUMN_TYPE <> c2.COLUMN_TYPE
+ORDER BY c1.COLUMN_TYPE, c2.COLUMN_TYPE, TABLE_NAME;
+
+-- Check which tables have strange varchar lengths
+--   events.name = 54 (perhaps use 50), formats.sort_by and sort_by_second = 255 (perhaps use 10), various = 191 (some are really short)
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT
+FROM INFORMATION_SCHEMA.COLUMNS AS c1
+WHERE TABLE_SCHEMA IN ('wca', 'wca_dev')
+AND DATA_TYPE = 'varchar'
+AND CHARACTER_MAXIMUM_LENGTH NOT IN (1, 2, 3, 6, 10, 32, 50)
+ORDER BY TABLE_SCHEMA, CHARACTER_MAXIMUM_LENGTH, COLUMN_TYPE, TABLE_NAME, COLUMN_NAME;
 
 -- Search for tables without primary key
 --   2 tables in results export do not have a primary key
